@@ -1,0 +1,78 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Features from '~/components/widgets/Features.astro';
+import { getPermalink } from '~/utils/permalinks';
+
+const metadata = {
+  title: 'Events - UDAF',
+};
+
+const events = [
+  {
+    title: 'Prodigies 6.0',
+    description: 'The flagship business competition of UDAF.',
+    link: getPermalink('/events/prodigies/6-0'),
+    icon: 'tabler:trophy',
+  },
+  {
+    title: 'Badminton PRO 4.0',
+    description: 'Annual badminton tournament for students and teachers.',
+    link: getPermalink('/events/badminton-pro/4-0'),
+    icon: 'tabler:ball-tennis',
+  },
+  {
+    title: 'BBQ Party 2024',
+    description: 'Social gathering and celebration for UDAF members.',
+    link: getPermalink('/events/bbq-party-2024'),
+    icon: 'tabler:flame',
+  },
+  {
+    title: 'Sports Day',
+    description: 'A day dedicated to various sports and physical activities.',
+    link: getPermalink('/events/sports-day'),
+    icon: 'tabler:run',
+  },
+  {
+    title: 'Mindlogue',
+    description: 'Knowledge sharing and intellectual discussion series.',
+    link: getPermalink('/events/mindlogue'),
+    icon: 'tabler:brain',
+  },
+  {
+    title: 'Mindlogue 2.0',
+    description: 'The second edition of our intellectual discussion series.',
+    link: getPermalink('/events/mindlogue/2-0'),
+    icon: 'tabler:brain',
+  },
+  {
+    title: 'Cleanup Project',
+    description: 'UDAF initiative for a cleaner environment.',
+    link: getPermalink('/events/cleanup-project'),
+    icon: 'tabler:trash',
+  },
+  {
+    title: 'Iftar Mahfil 2025',
+    description: 'UDAF annual Iftar celebration.',
+    link: getPermalink('/events/iftar-mahfil/2025'),
+    icon: 'tabler:moon',
+  },
+];
+---
+
+<Layout metadata={metadata}>
+  <Features
+    id="events-list"
+    tagline="Our Events"
+    title="Exciting Activities at UDAF"
+    subtitle="Join us in our various events designed to foster growth, networking, and fun."
+    items={events.map((event) => ({
+      title: event.title,
+      description: event.description,
+      icon: event.icon,
+      callToAction: {
+        text: 'Learn More',
+        href: event.link,
+      },
+    }))}
+  />
+</Layout>

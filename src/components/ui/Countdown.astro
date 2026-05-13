@@ -1,0 +1,139 @@
+---
+export interface Props {
+  targetDate: string; // ISO 8601 format e.g., '2026-12-31T23:59:59'
+  title?: string;
+  id?: string;
+  class?: string;
+}
+
+const {
+  targetDate,
+  title = 'Event Starts In',
+  id = `countdown-${Math.random().toString(36).substr(2, 9)}`,
+  class: className = '',
+} = Astro.props;
+---
+
+<div
+  id={id}
+  class={`flex flex-col items-center justify-center p-6 sm:p-8 bg-white/60 dark:bg-slate-800/60 backdrop-blur-md rounded-2xl border border-gray-100 dark:border-slate-700/50 shadow-lg ${className}`}
+  data-target={targetDate}
+>
+  {
+    title && (
+      <h3 class="text-xl md:text-2xl font-bold mb-6 font-heading text-center text-gray-900 dark:text-white">{title}</h3>
+    )
+  }
+
+  <div class="flex gap-3 sm:gap-6 text-center">
+    {/* Days */}
+    <div class="flex flex-col">
+      <div
+        class="w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center bg-primary text-white text-2xl sm:text-3xl font-bold rounded-xl shadow-md"
+        data-days
+      >
+        00
+      </div>
+      <span class="text-[10px] sm:text-xs font-semibold uppercase mt-3 text-gray-500 dark:text-slate-400 tracking-wider"
+        >Days</span
+      >
+    </div>
+
+    <div class="text-2xl sm:text-3xl font-bold text-gray-300 dark:text-slate-600 mt-4 sm:mt-5">:</div>
+
+    {/* Hours */}
+    <div class="flex flex-col">
+      <div
+        class="w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center bg-primary text-white text-2xl sm:text-3xl font-bold rounded-xl shadow-md"
+        data-hours
+      >
+        00
+      </div>
+      <span class="text-[10px] sm:text-xs font-semibold uppercase mt-3 text-gray-500 dark:text-slate-400 tracking-wider"
+        >Hours</span
+      >
+    </div>
+
+    <div class="text-2xl sm:text-3xl font-bold text-gray-300 dark:text-slate-600 mt-4 sm:mt-5">:</div>
+
+    {/* Minutes */}
+    <div class="flex flex-col">
+      <div
+        class="w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center bg-primary text-white text-2xl sm:text-3xl font-bold rounded-xl shadow-md"
+        data-minutes
+      >
+        00
+      </div>
+      <span class="text-[10px] sm:text-xs font-semibold uppercase mt-3 text-gray-500 dark:text-slate-400 tracking-wider"
+        >Mins</span
+      >
+    </div>
+
+    <div class="text-2xl sm:text-3xl font-bold text-gray-300 dark:text-slate-600 mt-4 sm:mt-5">:</div>
+
+    {/* Seconds */}
+    <div class="flex flex-col">
+      <div
+        class="w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center bg-accent text-white text-2xl sm:text-3xl font-bold rounded-xl shadow-md"
+        data-seconds
+      >
+        00
+      </div>
+      <span class="text-[10px] sm:text-xs font-semibold uppercase mt-3 text-accent dark:text-purple-400 tracking-wider"
+        >Secs</span
+      >
+    </div>
+  </div>
+</div>
+
+<script>
+  function initCountdowns() {
+    const countdowns = document.querySelectorAll('[data-target]:not([data-initialized])');
+
+    countdowns.forEach((countdown) => {
+      countdown.setAttribute('data-initialized', 'true');
+      const targetDateStr = countdown.getAttribute('data-target');
+      if (!targetDateStr) return;
+
+      const targetDate = new Date(targetDateStr).getTime();
+
+      const daysEl = countdown.querySelector('[data-days]');
+      const hoursEl = countdown.querySelector('[data-hours]');
+      const minutesEl = countdown.querySelector('[data-minutes]');
+      const secondsEl = countdown.querySelector('[data-seconds]');
+
+      const updateCountdown = () => {
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+
+        if (distance < 0) {
+          // Time is up
+          if (daysEl) daysEl.textContent = '00';
+          if (hoursEl) hoursEl.textContent = '00';
+          if (minutesEl) minutesEl.textContent = '00';
+          if (secondsEl) secondsEl.textContent = '00';
+          return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        if (daysEl) daysEl.textContent = days < 10 ? '0' + days : days.toString();
+        if (hoursEl) hoursEl.textContent = hours < 10 ? '0' + hours : hours.toString();
+        if (minutesEl) minutesEl.textContent = minutes < 10 ? '0' + minutes : minutes.toString();
+        if (secondsEl) secondsEl.textContent = seconds < 10 ? '0' + seconds : seconds.toString();
+      };
+
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+    });
+  }
+
+  // Initialize on page load
+  initCountdowns();
+
+  // Re-initialize on Astro page transitions
+  document.addEventListener('astro:page-load', initCountdowns);
+</script>
