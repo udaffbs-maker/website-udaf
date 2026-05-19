@@ -12,6 +12,11 @@ import { getStaticPathsBlogPost, blogPostRobots } from '~/utils/blog';
 import { findImage } from '~/utils/images';
 import type { MetaData } from '~/types';
 import RelatedPosts from '~/components/blog/RelatedPosts.astro';
+import Carousel from '~/components/ui/Carousel.astro';
+import Button from '~/components/ui/Button.astro';
+import Countdown from '~/components/ui/Countdown.astro';
+import Registration from '~/components/ui/Registration.astro';
+import Video from '~/components/ui/Video.astro';
 
 export const prerender = true;
 
@@ -43,11 +48,19 @@ const metadata = merge(
   },
   { ...(post?.metadata ? { ...post.metadata, canonical: post.metadata?.canonical || url } : {}) }
 ) as MetaData;
+
+const components = {
+  Carousel,
+  Button,
+  Countdown,
+  Registration,
+  Video,
+};
 ---
 
 <Layout metadata={metadata}>
   <SinglePost post={{ ...post, image: image }} url={url}>
-    {post.Content ? <post.Content /> : <Fragment set:html={post.content || ''} />}
+    {post.Content ? <post.Content components={components} /> : <Fragment set:html={post.content || ''} />}
   </SinglePost>
   <ToBlogLink />
   <RelatedPosts post={post} />

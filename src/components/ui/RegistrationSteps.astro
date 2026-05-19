@@ -1,0 +1,107 @@
+---
+import StepsWidget from '~/components/widgets/Steps.astro';
+
+export interface Props {
+  title?: string;
+  subtitle?: string;
+  bkashNumber?: string;
+  nagadNumber?: string;
+  rocketNumber?: string;
+  items?: Array<{
+    title: string;
+    description: string;
+    icon?: string;
+  }>;
+}
+
+const { title, subtitle, bkashNumber, nagadNumber, rocketNumber, items = [] } = Astro.props;
+
+const processedItems = items.map((item, index) => {
+  // Fix bare icon names (e.g., "money" -> "tabler:money") to prevent "local icon set" errors
+  const safeIcon = item.icon && !item.icon.includes(':') ? `tabler:${item.icon}` : item.icon;
+  const baseItem = { ...item, icon: safeIcon };
+
+  if (index === 0 && (bkashNumber || nagadNumber || rocketNumber)) {
+    let paymentHtml = `<div class="flex flex-wrap items-center gap-3 md:gap-5 mt-5 not-prose">`;
+    
+    if (bkashNumber) {
+      paymentHtml += `<div class="flex flex-col"><div class="inline-flex items-center gap-2.5 px-3.5 py-2 bg-[#E2136E]/5 dark:bg-[#E2136E]/10 rounded-xl border border-[#E2136E]/20 shadow-sm transition-all hover:shadow-md hover:border-[#E2136E]/40 group"><img src="/images/BKash_logo.svg" alt="bKash" class="h-5 md:h-6 w-auto object-contain" /><span id="bkash-number" class="text-gray-900 dark:text-gray-100 text-base font-bold tracking-wider">${bkashNumber}</span><button type="button" id="copy-bkash" class="ml-0.5 p-1.5 text-gray-500 hover:text-[#E2136E] dark:text-slate-400 dark:hover:text-[#E2136E] transition-colors bg-white/80 hover:bg-white dark:bg-slate-800/80 dark:hover:bg-slate-800 rounded-md shadow-sm border border-gray-200/80 dark:border-slate-700" title="Copy bKash Number"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="copy-icon"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="check-icon hidden text-[#E2136E]"><polyline points="20 6 9 17 4 12"/></svg></button></div><p class="text-xs text-[#E2136E] font-medium mt-1 opacity-0 transition-opacity duration-300 h-4 text-center">Copied!</p></div>`;
+    }
+
+    if (nagadNumber) {
+      paymentHtml += `<div class="flex flex-col"><div class="inline-flex items-center gap-2.5 px-3.5 py-2 bg-[#F6921E]/5 dark:bg-[#F6921E]/10 rounded-xl border border-[#F6921E]/20 shadow-sm transition-all hover:shadow-md hover:border-[#F6921E]/40 group"><img src="/images/nagad_logo.svg" alt="Nagad" class="h-5 md:h-6 w-auto object-contain" /><span id="nagad-number" class="text-gray-900 dark:text-gray-100 text-base font-bold tracking-wider">${nagadNumber}</span><button type="button" id="copy-nagad" class="ml-0.5 p-1.5 text-gray-500 hover:text-[#F6921E] dark:text-slate-400 dark:hover:text-[#F6921E] transition-colors bg-white/80 hover:bg-white dark:bg-slate-800/80 dark:hover:bg-slate-800 rounded-md shadow-sm border border-gray-200/80 dark:border-slate-700" title="Copy Nagad Number"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="copy-icon"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="check-icon hidden text-[#F6921E]"><polyline points="20 6 9 17 4 12"/></svg></button></div><p class="text-xs text-[#F6921E] font-medium mt-1 opacity-0 transition-opacity duration-300 h-4 text-center">Copied!</p></div>`;
+    }
+
+    if (rocketNumber) {
+      paymentHtml += `<div class="flex flex-col"><div class="inline-flex items-center gap-2.5 px-3.5 py-2 bg-[#8C1595]/5 dark:bg-[#8C1595]/10 rounded-xl border border-[#8C1595]/20 shadow-sm transition-all hover:shadow-md hover:border-[#8C1595]/40 group"><img src="/images/Rocket_mobile_banking_logo.svg" alt="Rocket" class="h-5 md:h-6 w-auto object-contain" /><span id="rocket-number" class="text-gray-900 dark:text-gray-100 text-base font-bold tracking-wider">${rocketNumber}</span><button type="button" id="copy-rocket" class="ml-0.5 p-1.5 text-gray-500 hover:text-[#8C1595] dark:text-slate-400 dark:hover:text-[#8C1595] transition-colors bg-white/80 hover:bg-white dark:bg-slate-800/80 dark:hover:bg-slate-800 rounded-md shadow-sm border border-gray-200/80 dark:border-slate-700" title="Copy Rocket Number"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="copy-icon"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="check-icon hidden text-[#8C1595]"><polyline points="20 6 9 17 4 12"/></svg></button></div><p class="text-xs text-[#8C1595] font-medium mt-1 opacity-0 transition-opacity duration-300 h-4 text-center">Copied!</p></div>`;
+    }
+
+    paymentHtml += `</div>`;
+    
+    return {
+      ...baseItem,
+      description: item.description + '<br>' + paymentHtml
+    };
+  }
+  return baseItem;
+});
+---
+
+<div class="relative">
+  <StepsWidget
+    title={title}
+    subtitle={subtitle}
+    classes={{ 
+      container: 'py-8 md:py-12',
+      items: { title: 'text-primary dark:text-blue-400' }
+    }}
+    items={processedItems}
+  />
+</div>
+
+<script>
+  const setupCopyBtn = () => {
+    const methods = ['bkash', 'nagad', 'rocket'];
+    
+    methods.forEach(method => {
+      const copyBtn = document.getElementById(`copy-${method}`);
+      const numSpan = document.getElementById(`${method}-number`);
+      
+      if (copyBtn && numSpan && !copyBtn.hasAttribute('data-initialized')) {
+        copyBtn.setAttribute('data-initialized', 'true');
+        
+        // Find the toast element related to this button
+        const toast = copyBtn.parentElement?.nextElementSibling;
+        
+        copyBtn.addEventListener('click', async () => {
+          try {
+            await navigator.clipboard.writeText(numSpan.textContent?.trim() || '');
+            
+            const copyIcon = copyBtn.querySelector('.copy-icon');
+            const checkIcon = copyBtn.querySelector('.check-icon');
+            
+            if (copyIcon && checkIcon && toast) {
+              copyIcon.classList.add('hidden');
+              checkIcon.classList.remove('hidden');
+              toast.classList.remove('opacity-0');
+              toast.classList.add('opacity-100');
+              
+              setTimeout(() => {
+                copyIcon.classList.remove('hidden');
+                checkIcon.classList.add('hidden');
+                toast.classList.remove('opacity-100');
+                toast.classList.add('opacity-0');
+              }, 2000);
+            }
+          } catch (err) {
+            console.error('Failed to copy text: ', err);
+          }
+        });
+      }
+    });
+  };
+
+  document.addEventListener('astro:page-load', setupCopyBtn);
+  document.addEventListener('DOMContentLoaded', setupCopyBtn);
+  setupCopyBtn();
+</script>

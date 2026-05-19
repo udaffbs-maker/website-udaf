@@ -1,0 +1,67 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import { Icon } from 'astro-icon/components';
+import fs from 'node:fs';
+import path from 'node:path';
+import yaml from 'js-yaml';
+
+// Read and parse the portfolio data
+const dataPath = path.join(process.cwd(), 'src/data/portfolio/portfolio.yaml');
+const portfolioData = yaml.load(fs.readFileSync(dataPath, 'utf8')) as any;
+
+const metadata = {
+  title: portfolioData.title || 'Portfolio',
+};
+---
+
+<Layout metadata={metadata}>
+  <section class="px-4 py-16 sm:px-6 mx-auto lg:px-8 lg:py-20 max-w-5xl">
+    <div class="text-center mb-12">
+      <h1 class="text-4xl md:text-5xl font-bold leading-tighter tracking-tighter mb-4 font-heading text-gray-900 dark:text-white">
+        {portfolioData.title || 'Our Portfolio'}
+      </h1>
+      <div class="w-20 h-1.5 bg-primary mx-auto rounded-full"></div>
+      <p class="mt-6 text-lg text-muted dark:text-slate-400">
+        Explore our journey and achievements over the years.
+      </p>
+    </div>
+
+    <div class="flex flex-col md:flex-row gap-10 md:gap-16 items-start">
+      <div class="w-full md:w-1/2">
+        <div class="relative bg-white dark:bg-slate-900 rounded-2xl overflow-hidden shadow-2xl border border-gray-100 dark:border-slate-800 transition-all duration-300 hover:shadow-primary/20 group">
+          <div class="absolute -inset-1 bg-gradient-to-r from-primary to-accent rounded-[1.25rem] blur opacity-25 group-hover:opacity-40 transition duration-500"></div>
+          <img 
+            src={portfolioData.coverImage} 
+            alt="Portfolio Cover" 
+            class="relative w-full h-auto object-cover rounded-2xl border-4 border-white dark:border-slate-800"
+          />
+        </div>
+      </div>
+
+      <div class="w-full md:w-1/2 flex flex-col justify-center">
+        <h3 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Download Portfolios</h3>
+        <div class="grid grid-cols-1 gap-4">
+          {portfolioData.years?.map((item) => (
+            <a 
+              href={item.link} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="group flex items-center justify-between p-5 bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm hover:shadow-md hover:border-primary/50 dark:hover:border-primary/50 transition-all duration-300 ease-in-out hover:-translate-y-1"
+            >
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 bg-primary/10 dark:bg-primary/20 text-primary flex items-center justify-center rounded-full group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+                  <Icon name="tabler:file-type-pdf" class="w-6 h-6" />
+                </div>
+                <div>
+                  <h4 class="text-lg font-bold text-gray-900 dark:text-white">Portfolio {item.year}</h4>
+                  <p class="text-sm text-muted">Click to view/download</p>
+                </div>
+              </div>
+              <Icon name="tabler:external-link" class="w-5 h-5 text-gray-400 group-hover:text-primary transition-colors duration-300" />
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

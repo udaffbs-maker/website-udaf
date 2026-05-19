@@ -1,196 +1,15 @@
 ---
+import fs from 'node:fs';
+import yaml from 'js-yaml';
 import Layout from '~/layouts/PageLayout.astro';
 import TeamGrid from '~/components/widgets/TeamGrid.astro';
 
+const data = yaml.load(fs.readFileSync('./src/data/committees/executive-committee-2025-26.yaml', 'utf8')) as any;
+const { title, presidentialPanel, vicePresidents } = data;
+
 const metadata = {
-  title: 'Executive Committee 2025-26',
+  title: title,
 };
-
-const presidentialPanel = [
-  {
-    name: 'Abrar Rahman',
-    role: 'President',
-    image:
-      '/images/committees/executive-committee-2025-26/Headshot-2-Abrar-Rahman-scaled-rilzojzth15qvobrpbo7u54gz7y0kyjzpozr4pbugw.png',
-    facebook: 'https://www.facebook.com/a.bruh00',
-    email: 'abrar.redwanur.rahman@gmail.com',
-    linkedin: 'http://www.linkedin.com/in/md-abrar-redwanur-rahman',
-  },
-  {
-    name: 'MD. Samin Yasar',
-    role: 'General Secretary',
-    image: '/images/committees/executive-committee-2025-26/Samin-Yasar-e1766601991875.jpg',
-    facebook: 'https://www.facebook.com/share/1AQEgcJK7c/',
-    email: 'saminyasarr138@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/samin-yasar-80889628b',
-  },
-  {
-    name: 'Rubaiya Shaams Tuhfa',
-    role: 'Treasurer',
-    image: '/images/committees/executive-committee-2025-26/Rubaiya-Shaams-Tuhfa-.jpg',
-    facebook: 'https://www.facebook.com/share/1AHq8MGmKZ/',
-    email: 'rubaiyatuhfa@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/rubaiya-shaams-tuhfa-469500293',
-  },
-];
-
-const vicePresidents = [
-  {
-    name: 'Nosheen Binte Karim',
-    role: 'VP of HR & Documentation',
-    image:
-      '/images/committees/executive-committee-2025-26/Nosheen-Binte-Karim-scaled-rilzqq0f8a4jnb6g1re933fqa79hbu5pof51yo464g.jpg',
-    facebook: 'https://www.facebook.com/share/1DZuU82E79/',
-    email: 'nosheen.binte.karim13@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/nosheen-binte-karim-241a012a6',
-  },
-  {
-    name: 'Md. Anas Ferdaus Arik',
-    role: 'VP of HR & Documentation',
-    image: '/images/committees/executive-committee-2025-26/Md.-Anas-Ferdaus-Arik-.jpg',
-    facebook: 'https://www.facebook.com/share/1ARjsCzq3E/',
-    email: 'anasarik24@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/anas-ferdaus-847192258',
-  },
-  {
-    name: 'Srijan Chakma',
-    role: 'VP of Graphics & IT',
-    image: '/images/committees/executive-committee-2025-26/Srijan16.jpg',
-    facebook: 'https://www.facebook.com/share/1KuvSTbhrH/',
-    email: 'srijonchakma1012@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/srijan-chakma-9a9a2737a',
-  },
-  {
-    name: 'Shwastika Chowdhury',
-    role: 'VP of Graphics & IT',
-    image: '/images/committees/executive-committee-2025-26/Shwastika-Chowdhury.jpg',
-    facebook: 'https://www.facebook.com/share/17Zu9csMfB/',
-    email: 'chowdhuryswastika416@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/shwastika-chowdhury-48a130258',
-  },
-  {
-    name: 'Ibnat Tarannum Mahmood',
-    role: 'VP of Promotion & Content Dev',
-    image: '/images/committees/executive-committee-2025-26/Ibnat-Mahmood.jpg',
-    email: 'ibnatmahmood@gmail.com',
-  },
-  {
-    name: 'Md. Sujon Shikder',
-    role: 'VP of Promotion & Content Dev',
-    image: '/images/committees/executive-committee-2025-26/Sujon-Shikder-e1766603017879.jpg',
-    facebook: 'https://www.facebook.com/share/1Jqw7Zrp5d/',
-    email: 'sujonshikder736@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/md-sujon-shikder-382581283',
-  },
-  {
-    name: 'Benazir Ahmed',
-    role: 'VP of Promotion & Content Dev',
-    image: '/images/committees/executive-committee-2025-26/Benazir-Ahmed.jpg',
-    facebook: 'https://www.facebook.com/share/1HF5QMrYNi/',
-    email: 'benazirahmed111222@gmail.com',
-    linkedin: 'http://www.linkedin.com/in/saimon-farazi-5b8b0b269',
-  },
-  {
-    name: 'Tanveer Hasan',
-    role: 'VP of Promotion & Content Dev',
-    image: '/images/committees/executive-committee-2025-26/Tanveer-Hasan.jpg',
-    facebook: 'https://www.facebook.com/share/1JmRSU4T5D/',
-    email: 'tanveerdc.06@gmail.com',
-  },
-  {
-    name: 'Anisa Tahmin',
-    role: 'VP of Career & Corporate Affairs',
-    image: '/images/committees/executive-committee-2025-26/Anisa-Tahmin.jpg',
-    facebook: 'https://www.facebook.com/anisa.tahmin01',
-    email: 'anisatahmin101@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/anisatahmin01',
-  },
-  {
-    name: 'Afra Anjum Orthy',
-    role: 'VP of Career & Corporate Affairs',
-    image: '/images/committees/executive-committee-2025-26/Afra-Anjum-Orthy-.jpg',
-    facebook: 'https://www.facebook.com/share/1C5Fc8N49e/',
-    email: 'afraorthy6@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/afraorthy',
-  },
-  {
-    name: 'Tanmoy Bishwas',
-    role: 'VP of Career & Corporate Affairs',
-    image: '/images/committees/executive-committee-2025-26/Tanmoy-Bishwas-rilzijsxt4xspd1srq80wnogcljlekpq7yy2r28e80.jpg',
-    facebook: 'https://www.facebook.com/share/1D2jiyqh1V/',
-    email: 'tanmoybishwas02@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/tanmoybishwas',
-  },
-  {
-    name: 'Mymuna Islam Elma',
-    role: 'VP of PR & Communication',
-    image: '/images/committees/executive-committee-2025-26/Mymuna-Islam-Elma-Mymuna-Islam-Elma.jpg',
-    facebook: 'https://www.facebook.com/mymuna.islam.elma',
-    email: 'elma15102k4@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/mymuna-islam-elma-641051258',
-  },
-  {
-    name: 'Gazi Farah Shajneen',
-    role: 'VP of PR & Communication',
-    image: '/images/committees/executive-committee-2025-26/20250710_125752-Gazi-Farah-Shajneen-1024x1024.jpg',
-    email: 'anam10704@gmail.com',
-  },
-  {
-    name: 'Nusaiba Tasnim',
-    role: 'VP of PR & Communication',
-    image: '/images/committees/executive-committee-2025-26/Nusaiba-Tasnim.jpg',
-    facebook: 'https://www.facebook.com/share/1DCHRKHKYc/',
-    email: 'nusaiba.nawha@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/nusaiba-tasnim-156ba0294',
-  },
-  {
-    name: 'Sadia Islam Lia',
-    role: 'VP of Events & Logistics',
-    image: '/images/committees/executive-committee-2025-26/SADIA-ISLAM-LIA.jpg',
-    facebook: 'https://www.facebook.com/share/1EmXXCqBbk/',
-    email: 'chowdhurynayem309@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/chowdhury-nayem',
-  },
-  {
-    name: 'Nayem Chowdhury',
-    role: 'VP of Events & Logistics',
-    image: '/images/committees/executive-committee-2025-26/Nayem-Chowdhury-scaled-rilzh1aasqv5zz8zm2nnw1fpw90b04paoh3wx0h88w.jpg',
-    facebook: 'https://www.facebook.com/JannatulTusmit',
-    email: 'ferdousihossain18@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/rahima-sultana-tusmit-238183277',
-  },
-  {
-    name: 'Md. Al-amin Sharif',
-    role: 'VP of Events & Logistics',
-    image: '/images/committees/executive-committee-2025-26/sharif-1024x1024.jpg',
-    facebook: 'https://www.facebook.com/share/1ABL2267HE/',
-    email: 'mdalaminsharif23@gmail.com',
-  },
-  {
-    name: 'Anik Agarwal',
-    role: 'VP of Art & Cultural Activities',
-    image: '/images/committees/executive-committee-2025-26/Anik-Agarwal.png',
-    facebook: 'http://www.facebook.com/cn7135',
-    email: 'career.agarwal@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/connecting-agarwal',
-  },
-  {
-    name: 'Sabbir Alam Sakib',
-    role: 'VP of Sports & Entertainment',
-    image: '/images/committees/executive-committee-2025-26/Sabbir-Alam-Sakib-1-rilzsg1q8ysaj8yi41xs1bm6lqchi30i7xb37ld8a0.jpg',
-    email: 'sakibsabbiralam@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/sabbir-alam-sakib-88ab70250',
-  },
-  {
-    name: 'Mullick Roshan Roddur',
-    role: 'VP of Photography & Videography',
-    image:
-      '/images/committees/executive-committee-2025-26/Mullick-R.-Roddur-e1766604465561-rgn4qa89tabazsr3m8czqxr3tjy1lii46src0t1ka6.jpg',
-    facebook: 'https://www.facebook.com/share/1CzPGsnDkt/',
-    email: 'mroshanr12@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/mullick-r-roddur-84b67519a',
-  },
-];
 ---
 
 <Layout metadata={metadata}>
@@ -198,12 +17,12 @@ const vicePresidents = [
     {/* Hero Header */}
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
       <div class="text-center">
-        <p class="text-sm font-semibold uppercase tracking-widest text-primary mb-3">Meet Our Team</p>
-        <h1 class="font-heading font-bold text-4xl md:text-5xl lg:text-6xl text-gray-900 dark:text-white mb-4">
+        <p class="text-sm font-semibold uppercase tracking-widest text-primary mb-3 intersect-once motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade-down">Meet Our Team</p>
+        <h1 class="font-heading font-bold text-4xl md:text-5xl lg:text-6xl text-gray-900 dark:text-white mb-4 intersect-once motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade-up">
           Executive Committee
           <span class="block text-primary">2025-26</span>
         </h1>
-        <div class="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
+        <div class="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full intersect-once motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade-up"></div>
       </div>
     </div>
 

@@ -1,0 +1,97 @@
+---
+import 'plyr/dist/plyr.css';
+
+export interface Props {
+  url: string;
+  id?: string;
+  title?: string;
+}
+
+const { url, id, title } = Astro.props;
+
+// Extract YouTube ID from various URL formats
+const getYouTubeId = (url: string) => {
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+  const match = url.match(regExp);
+  return match && match[2].length === 11 ? match[2] : null;
+};
+
+const videoId = getYouTubeId(url);
+---
+
+<div class="relative w-full max-w-5xl mx-auto my-10 md:my-16 not-prose group">
+  {/* Decorative subtle glow effect */}
+  <div class="absolute -inset-1 bg-gradient-to-r from-primary to-accent rounded-[1.25rem] blur opacity-25 group-hover:opacity-40 transition duration-500"></div>
+  
+  <div class="relative bg-white dark:bg-slate-900 rounded-2xl overflow-hidden shadow-2xl border border-gray-100 dark:border-slate-800 transition-all duration-300">
+    {
+      videoId ? (
+        <div class="plyr__video-embed w-full aspect-video" id={id || `player-${videoId}`}>
+          <iframe
+            src={`https://www.youtube.com/embed/${videoId}?origin=${Astro.url.origin}&iv_load_policy=3&modestbranding=1&playsinline=1&showinfo=0&rel=0&enablejsapi=1`}
+            allowfullscreen
+            allowtransparency
+            allow="autoplay"
+            title={title || 'YouTube video player'}
+            class="absolute top-0 left-0 w-full h-full"
+          />
+        </div>
+      ) : (
+        <div class="w-full aspect-video flex items-center justify-center bg-gray-100 dark:bg-slate-800">
+          <p class="text-red-500 font-medium">Invalid YouTube URL</p>
+        </div>
+      )
+    }
+  </div>
+</div>
+
+<style is:global>
+  :root {
+    --plyr-color-main: var(--aw-color-primary, rgb(61, 125, 193)); /* UDAF Blue */
+    --plyr-video-control-background-hover: var(--aw-color-primary, rgb(61, 125, 193));
+    --plyr-control-radius: 0.5rem;
+  }
+
+  .plyr {
+    border-radius: 1rem;
+    overflow: hidden;
+  }
+  
+  .plyr--video {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+
+  /* Make sure iframe fills the player container */
+  .plyr__video-wrapper iframe {
+    width: 100% !important;
+    height: 100% !important;
+  }
+</style>
+
+<script>
+  import Plyr from 'plyr';
+
+  function initPlayers() {
+    const players = document.querySelectorAll('.plyr__video-embed');
+    players.forEach((player) => {
+      new Plyr(player, {
+        settings: ['quality', 'speed'],
+        invertTime: false,
+        toggleInvert: false,
+        youtube: { noCookie: true, rel: 0, showinfo: 0, iv_load_policy: 3, modestbranding: 1 }
+      });
+    });
+  }
+
+  // Initialize on load
+  document.addEventListener('astro:page-load', initPlayers);
+  
+  // Also run if it's the first load without page-load event
+  if (document.readyState === 'complete') {
+    initPlayers();
+  } else {
+    window.addEventListener('load', initPlayers);
+  }
+</script>

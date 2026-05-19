@@ -1,193 +1,27 @@
 ---
+import fs from 'node:fs';
+import yaml from 'js-yaml';
 import Layout from '~/layouts/PageLayout.astro';
 import TeamGrid from '~/components/widgets/TeamGrid.astro';
 
+const data = yaml.load(fs.readFileSync('./src/data/committees/executive-committee-2025.yaml', 'utf8')) as any;
+const { title, presidentialPanel, vicePresidents } = data;
+
 const metadata = {
-  title: 'Executive Committee 2025',
+  title: title,
 };
-
-const presidentialPanel = [
-  {
-    name: 'Sifat Al Rashid',
-    role: 'President',
-    image: '/images/committees/executive-committee-2025/Sifat-Al-Rashid.jpg',
-    facebook: 'https://www.facebook.com/share/18jjBACXXT/?mibextid=qi2Omg',
-    email: 'sifat.ais.du@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/sifatalrashid',
-  },
-  {
-    name: 'Hridoy Ray Akash',
-    role: 'General Secretary',
-    image: '/images/committees/executive-committee-2025/HRIDOY-RAY-AKASH-Hridoy-Ray-Akash.jpg',
-    facebook: 'https://www.facebook.com/hridoyroy.akash',
-    email: 'hridoyrayakash01@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/hridoy-ray-akash-bb2654267/',
-  },
-  {
-    name: 'Mrittika Sarker',
-    role: 'Treasurer',
-    image: '/images/committees/executive-committee-2025/Mrittika-Sarker-Treasurer-UDAF-Mrittika-Sarker.jpg',
-    facebook: 'https://www.facebook.com/mrttika.sarakara.245166?mibextid=ZbWKwL',
-    email: 'mrittikasarker.2002@gmail.com',
-  },
-];
-
-const vicePresidents = [
-  {
-    name: 'Sumaya Afrin',
-    role: 'VP of HR & Documentation',
-    image: '/images/committees/executive-committee-2025/inbound4658182785575591902-Sumaya-Afrin-1012x1024.jpg',
-    facebook: 'https://www.facebook.com/anahita.afrin.5?mibextid=ZbWKwL',
-    email: 'sumayaafrin13@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/sumaya-afrin-166364244',
-  },
-  {
-    name: 'Bristi Saha',
-    role: 'VP of HR & Documentation',
-    image: '/images/committees/executive-committee-2025/blank-profile-picture-973460_1280-1024x1024.webp',
-  },
-  {
-    name: 'Md. Rakib Hasan Niloy',
-    role: 'VP of Graphics & IT',
-    image: '/images/committees/executive-committee-2025/Md.-Rakib-Hasan-Niloy-MD.-RAKIB-HASAN-NILOY-SEC-B.jpg',
-    facebook: 'https://www.facebook.com/share/16Ha8dxq9C/',
-    email: 'mdrakibniloy18@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/md-rakib-hasan-niloy-8a31b0285',
-  },
-  {
-    name: 'Shabab Tousif Aman',
-    role: 'VP of Graphics & IT',
-    image: '/images/committees/executive-committee-2025/inbound4203914816705361147-Shabab-Tousif-Aman.jpg',
-    facebook: 'https://www.facebook.com/share/1KSW3bqxvZ/',
-    email: 'shababanindo@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/shabab-tousif-aman-339a35293',
-  },
-  {
-    name: 'Israt Jahan',
-    role: 'VP of Graphics & IT',
-    image: '/images/committees/executive-committee-2025/inbound5600741737790935797-ishratmahi.jpg',
-    facebook: 'https://www.facebook.com/its.mahiish',
-    email: 'ishratmahi0@gmail.com',
-  },
-  {
-    name: 'Chironjit Sarker',
-    role: 'VP of Promotion & Content Dev',
-    image: '/images/committees/executive-committee-2025/Chironjit-Sarker-Chironjit-Sarker.jpg',
-    facebook: 'https://www.facebook.com/chironjitsarker143',
-    email: 'chironjitsarker1302@gmail.com',
-  },
-  {
-    name: 'Ashraful Islam Saimon',
-    role: 'VP of Promotion & Content Dev',
-    image: '/images/committees/executive-committee-2025/Ashraful-Islam-Saimon-Saimon-Farazi.jpg',
-    facebook: 'https://www.facebook.com/ashraful.saimon.351074/',
-    email: 'saimonserge422@gmail.com',
-    linkedin: 'http://www.linkedin.com/in/saimon-farazi-5b8b0b269',
-  },
-  {
-    name: 'Ashraf Hossain Bishal',
-    role: 'VP of Promotion & Content Dev',
-    image: '/images/committees/executive-committee-2025/IMG_2566-ASHRAF-HOSSAIN-1024x1024.jpeg',
-    facebook: 'https://www.facebook.com/share/19z9vYkeGV/?mibextid=wwXIfr',
-    email: 'bishalhossain6@gmail.com',
-  },
-  {
-    name: 'Fieruz Hassin Shifa',
-    role: 'VP of Promotion & Content Dev',
-    image: '/images/committees/executive-committee-2025/FIERUZ-HASSIN-SHIFA.jpg',
-    facebook: 'https://www.facebook.com/fh.shifa.5?mibextid=ZbWKwL',
-    email: 'shifafieruzhassin@gmail.com',
-  },
-  {
-    name: 'Zannatul Ferdous Nibita',
-    role: 'VP of Career & Corporate Affairs',
-    image: '/images/committees/executive-committee-2025/IMG-20250306-WA0016_imresizer-Zannatul-Ferdous.jpg',
-    facebook: 'https://www.facebook.com/mahjabin.khan.560',
-    email: 'zannatulferdous417@gmail.com',
-  },
-  {
-    name: 'Faizah Tahsin',
-    role: 'VP of Career & Corporate Affairs',
-    image: '/images/committees/executive-committee-2025/blank-profile-picture-973460_1280-1024x1024.webp',
-  },
-  {
-    name: 'Mahid Kayser',
-    role: 'VP of PR & Communication',
-    image: '/images/committees/executive-committee-2025/Mahid-kayser.jpg',
-    facebook: 'https://www.facebook.com/share/1Ftamsytyj/',
-    email: 'mahidpaddo878@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/mahid-kayser-570a01278',
-  },
-  {
-    name: 'Lamia Iqbal',
-    role: 'VP of PR & Communication',
-    image: '/images/committees/executive-committee-2025/IMG_4145-Lamia-Iqbal.jpeg',
-    facebook: 'https://www.facebook.com/lamia.iqbal.5268?mibextid=wwXIfr',
-    email: 'lamiaiqbal08@gmail.com',
-  },
-  {
-    name: 'Anika Ibnath Prema',
-    role: 'VP of Events & Logistics',
-    image: '/images/committees/executive-committee-2025/Anika-Ibnath-Prema-ibnath-Prema.jpg',
-    facebook: 'https://www.facebook.com/anika.ibnath.5036',
-    email: 'ibnathprema22@gmail.com',
-  },
-  {
-    name: 'Poddo Das',
-    role: 'VP of Events & Logistics',
-    image: '/images/committees/executive-committee-2025/blank-profile-picture-973460_1280-1024x1024.webp',
-  },
-  {
-    name: 'Rahima Sultana',
-    role: 'VP of Art & Cultural Activities',
-    image: '/images/committees/executive-committee-2025/Tusmit.jpg',
-    facebook: 'https://www.facebook.com/JannatulTusmit',
-    email: 'ferdousihossain18@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/rahima-sultana-tusmit-238183277',
-  },
-  {
-    name: 'Falguni Debnath',
-    role: 'VP of Art & Cultural Activities',
-    image: '/images/committees/executive-committee-2025/blank-profile-picture-973460_1280-1024x1024.webp',
-  },
-  {
-    name: 'Nidhu Roy',
-    role: 'VP of Art & Cultural Activities',
-    image: '/images/committees/executive-committee-2025/blank-profile-picture-973460_1280-1024x1024.webp',
-  },
-  {
-    name: 'Joy Saha',
-    role: 'VP of Art & Cultural Activities',
-    image: '/images/committees/executive-committee-2025/blank-profile-picture-973460_1280-1024x1024.webp',
-  },
-  {
-    name: 'Md Abu Sayed Noman',
-    role: 'VP of Sports & Entertainment',
-    image: '/images/committees/executive-committee-2025/Md-Abu-Sayed-Noman-Noman-Hossen.jpg',
-    facebook: 'https://www.facebook.com/share/1AHNuRDmXr/',
-    email: 'nomanhossen2762@gmail.com',
-  },
-  {
-    name: 'Shabab Tousif Aman',
-    role: 'VP of Photography & Videography',
-    image: '/images/committees/executive-committee-2025/inbound4203914816705361147-Shabab-Tousif-Aman.jpg',
-    facebook: 'https://www.facebook.com/share/1KSW3bqxvZ/',
-    email: 'shababanindo@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/shabab-tousif-aman-339a35293',
-  },
-];
 ---
 
 <Layout metadata={metadata}>
   <section class="relative py-12 md:py-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
       <div class="text-center">
-        <p class="text-sm font-semibold uppercase tracking-widest text-primary mb-3">Meet Our Team</p>
-        <h1 class="font-heading font-bold text-4xl md:text-5xl lg:text-6xl text-gray-900 dark:text-white mb-4">
+        <p class="text-sm font-semibold uppercase tracking-widest text-primary mb-3 intersect-once motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade-down">Meet Our Team</p>
+        <h1 class="font-heading font-bold text-4xl md:text-5xl lg:text-6xl text-gray-900 dark:text-white mb-4 intersect-once motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade-up">
           Executive Committee
           <span class="block text-primary">2025</span>
         </h1>
-        <div class="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
+        <div class="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full intersect-once motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade-up"></div>
       </div>
     </div>
 

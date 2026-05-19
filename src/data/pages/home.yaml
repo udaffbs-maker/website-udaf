@@ -1,0 +1,84 @@
+metadata:
+  title: UDAF - University of Dhaka Accounting Forum
+hero:
+  title1: University of Dhaka
+  title2: Accounting Forum
+  subtitle: |
+    Connect, Collaborate, Celebrate.
+  images:
+    - src: /images/20250321_192151.jpg
+      alt: '2025'
+    - src: /images/hero.jpg
+      alt: '2023'
+    - src: /images/20260415_204657.jpg
+      alt: '2025'
+  actions:
+    - text: Learn more
+      href: /about-us
+      variant: primary
+    - text: Our Events
+      href: /events
+stats:
+  - title: Years of Excellence
+    amount: '14'
+    icon: 'tabler:calendar'
+  - title: Current Club Members
+    amount: 100+
+    icon: 'tabler:users'
+  - title: General Members
+    amount: 900+
+    icon: 'tabler:user-plus'
+  - title: Alumni
+    amount: 250+
+    icon: 'tabler:school'
+  - title: Training Sessions
+    amount: 15+
+    icon: 'tabler:presentation'
+  - title: Successful Events
+    amount: '48'
+    icon: 'tabler:confetti'
+  - title: Guest Speakers Invited
+    amount: 150+
+    icon: 'tabler:microphone'
+  - title: Social Media Reach
+    amount: 10k+
+    icon: 'tabler:trending-up'
+features:
+  tagline: Activities
+  title: What UDAF Offers
+  subtitle: 'Empowering future AIS individuals through knowledge exchange, networking and practical skill development.'
+  items:
+    - title: Workshops & Seminars
+      description: 'On case solving, business plan writing, resume writing, and interview tips.'
+      icon: 'tabler:school'
+    - title: Competitions
+      description: 'Intra-university business plan competitions, debates, quizzes, and case solving.'
+      icon: 'tabler:trophy'
+    - title: Networking
+      description: Building sustainable relationships with business personnel and entities.
+      icon: 'tabler:users'
+    - title: Corporate Culture
+      description: Practicing behavior keeping pace with Corporate Code of Conduct (CCC).
+      icon: 'tabler:briefcase'
+about:
+  tagline: About Us
+  title: Our Journey & Vision
+  subtitle: Empowering Future Leaders
+  description: We create a corporate environment where talented AIS individuals can excel and secure bright careers.
+  image:
+    src: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'
+    alt: Team Collaboration
+  items:
+    - title: Dynamic Corporate World
+      description: 'In order to cope with the changing business landscape, we believe communication skills and up-to-date knowledge are essential.'
+    - title: AIS Potential
+      description: Every student of Accounting & Information Systems has inherent qualities and potentiality that we aim to nurture.
+    - title: Bridging the Gap
+      description: UDAF bridges the gap between faculty members and students through organizing different events and seminars.
+cta:
+  title: Ready to start your corporate journey?
+  subtitle: Connect with the UDAF community today and take the first step towards a successful career.
+  actions:
+    - text: Join Us
+      href: /contact-us
+      variant: primary

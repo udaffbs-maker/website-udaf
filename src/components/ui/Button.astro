@@ -4,37 +4,321 @@ import { twMerge } from 'tailwind-merge';
 import type { CallToAction as Props } from '~/types';
 
 const {
-  variant = 'secondary',
+  variant = 'primary',
   target,
-  text = Astro.slots.render('default'),
+  text = await Astro.slots.render('default'),
   icon = '',
   class: className = '',
   type,
   ...rest
 } = Astro.props;
 
-const variants = {
-  primary: 'btn-primary',
-  secondary: 'btn-secondary',
-  tertiary: 'btn btn-tertiary',
-  link: 'cursor-pointer hover:text-primary',
+// Normalize: TinaCMS may pass empty string for variant
+const resolvedVariant = variant && variant.trim() ? variant.trim() : 'primary';
+
+const variants: Record<string, string> = {
+  primary: 'cta-btn cta-primary',
+  secondary: 'cta-btn cta-secondary',
+  tertiary: 'cta-btn cta-tertiary',
+  danger: 'cta-btn cta-danger',
+  ghost: 'cta-btn cta-ghost',
+  flashy: 'cta-btn cta-flashy',
+  link: 'cta-link',
 };
 ---
 
+<style>
+  /* ── Base button ── */
+  .cta-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.65rem 1.5rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    border-radius: 0.6rem;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+    transition:
+      transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1),
+      box-shadow 0.18s ease,
+      filter 0.18s ease,
+      background-color 0.18s ease;
+    outline-offset: 3px;
+  }
+
+  /* Ripple pseudo-element on hover */
+  .cta-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+  }
+
+  .cta-btn:hover::before {
+    opacity: 1;
+  }
+
+  .cta-btn:active {
+    transform: scale(0.96) translateY(1px) !important;
+  }
+
+  .cta-btn:focus-visible {
+    outline: 2px solid currentColor;
+  }
+
+  /* ── Primary ── */
+  .cta-primary {
+    background: linear-gradient(135deg, var(--aw-color-primary, #4f46e5), #7c3aed);
+    color: #fff;
+    box-shadow:
+      0 4px 14px -2px rgba(79, 70, 229, 0.45),
+      0 1px 3px rgba(0, 0, 0, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  }
+
+  .cta-primary::before {
+    background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0));
+  }
+
+  .cta-primary:hover {
+    transform: translateY(-2px) scale(1.01);
+    box-shadow:
+      0 8px 24px -4px rgba(79, 70, 229, 0.55),
+      0 2px 6px rgba(0, 0, 0, 0.14),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    filter: brightness(1.08);
+  }
+
+  /* ── Secondary ── */
+  .cta-secondary {
+    background: #fff;
+    color: var(--aw-color-primary, #4f46e5);
+    border: 1.5px solid rgba(79, 70, 229, 0.35);
+    box-shadow:
+      0 2px 8px -1px rgba(79, 70, 229, 0.12),
+      0 1px 3px rgba(0, 0, 0, 0.06);
+  }
+
+  .cta-secondary::before {
+    background: linear-gradient(135deg, rgba(79, 70, 229, 0.06), rgba(124, 58, 237, 0.04));
+  }
+
+  .cta-secondary:hover {
+    transform: translateY(-2px) scale(1.01);
+    border-color: rgba(79, 70, 229, 0.6);
+    box-shadow:
+      0 6px 18px -2px rgba(79, 70, 229, 0.2),
+      0 2px 5px rgba(0, 0, 0, 0.07);
+  }
+
+  :global(.dark) .cta-secondary {
+    background: rgba(255, 255, 255, 0.06);
+    color: #a5b4fc;
+    border-color: rgba(165, 180, 252, 0.3);
+  }
+
+  :global(.dark) .cta-secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(165, 180, 252, 0.6);
+  }
+
+  /* ── Tertiary ── */
+  .cta-tertiary {
+    background: transparent;
+    color: var(--aw-color-text-default, #374151);
+    border: 1.5px solid rgba(55, 65, 81, 0.25);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+
+  .cta-tertiary::before {
+    background: rgba(55, 65, 81, 0.05);
+  }
+
+  .cta-tertiary:hover {
+    transform: translateY(-1px) scale(1.01);
+    border-color: rgba(55, 65, 81, 0.45);
+    box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.1);
+  }
+
+  :global(.dark) .cta-tertiary {
+    color: #d1d5db;
+    border-color: rgba(209, 213, 219, 0.2);
+  }
+
+  :global(.dark) .cta-tertiary:hover {
+    border-color: rgba(209, 213, 219, 0.45);
+  }
+
+  /* ── Danger ── */
+  .cta-danger {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: #fff;
+    box-shadow:
+      0 4px 14px -2px rgba(239, 68, 68, 0.4),
+      0 1px 3px rgba(0, 0, 0, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  }
+
+  .cta-danger::before {
+    background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0));
+  }
+
+  .cta-danger:hover {
+    transform: translateY(-2px) scale(1.01);
+    box-shadow:
+      0 8px 22px -4px rgba(239, 68, 68, 0.5),
+      0 2px 6px rgba(0, 0, 0, 0.14);
+    filter: brightness(1.06);
+  }
+
+  /* ── Flashy (Animated Gradient) ── */
+  .cta-flashy {
+    background: linear-gradient(135deg, #e11d48, #8b5cf6, #3b82f6, #e11d48);
+    background-size: 300% 300%;
+    color: #fff;
+    box-shadow:
+      0 4px 14px -2px rgba(139, 92, 246, 0.45),
+      0 1px 3px rgba(0, 0, 0, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    animation: gradientShift 4s ease infinite;
+    border: none;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  }
+
+  .cta-flashy::before {
+    background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
+  }
+
+  .cta-flashy:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow:
+      0 8px 24px -4px rgba(139, 92, 246, 0.6),
+      0 2px 6px rgba(0, 0, 0, 0.14);
+    filter: brightness(1.05);
+  }
+
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* ── Ghost ── */
+  .cta-ghost {
+    background: transparent;
+    color: var(--aw-color-primary, #4f46e5);
+    border: none;
+    box-shadow: none;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  .cta-ghost::before {
+    background: rgba(79, 70, 229, 0.08);
+    border-radius: inherit;
+  }
+
+  .cta-ghost:hover {
+    transform: translateY(-1px);
+    box-shadow: none;
+  }
+
+  :global(.dark) .cta-ghost {
+    color: #a5b4fc;
+  }
+
+  /* ── Link ── */
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: var(--aw-color-primary, #4f46e5);
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    position: relative;
+    transition: color 0.18s ease, gap 0.18s ease;
+    outline-offset: 3px;
+  }
+
+  .cta-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 1.5px;
+    background: currentColor;
+    transform: scaleX(0.3);
+    transform-origin: left;
+    opacity: 0.4;
+    transition: transform 0.22s ease, opacity 0.22s ease;
+  }
+
+  .cta-link:hover {
+    color: #7c3aed;
+    gap: 0.5rem;
+  }
+
+  .cta-link:hover::after {
+    transform: scaleX(1);
+    opacity: 0.7;
+  }
+
+  :global(.dark) .cta-link {
+    color: #a5b4fc;
+  }
+
+  :global(.dark) .cta-link:hover {
+    color: #c4b5fd;
+  }
+
+  /* ── Icon inside buttons ── */
+  .cta-icon {
+    width: 1.1rem;
+    height: 1.1rem;
+    flex-shrink: 0;
+    transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .cta-btn:hover .cta-icon,
+  .cta-link:hover .cta-icon {
+    transform: translateX(3px);
+  }
+</style>
+
 {
   type === 'button' || type === 'submit' || type === 'reset' ? (
-    <button type={type} class={twMerge(variants[variant] || '', className)} {...rest}>
+    <button
+      type={type}
+      class={twMerge(variants[resolvedVariant] || variants.primary, className)}
+      {...rest}
+    >
       <Fragment set:html={text} />
-      {icon && <Icon name={icon} class="w-5 h-5 ml-1 -mr-1.5 rtl:mr-1 rtl:-ml-1.5 inline-block" />}
+      {icon && <Icon name={icon} class="cta-icon" />}
     </button>
   ) : (
     <a
-      class={twMerge(variants[variant] || '', className)}
+      class={twMerge(variants[resolvedVariant] || variants.primary, className)}
       {...(target ? { target: target, rel: 'noopener noreferrer' } : {})}
       {...rest}
     >
       <Fragment set:html={text} />
-      {icon && <Icon name={icon} class="w-5 h-5 ml-1 -mr-1.5 rtl:mr-1 rtl:-ml-1.5 inline-block" />}
+      {icon && <Icon name={icon} class="cta-icon" />}
     </a>
   )
 }

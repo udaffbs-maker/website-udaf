@@ -34,6 +34,8 @@
     "astro-seo": "^1.1.0",
     "limax": "4.1.0",
     "lodash.merge": "^4.6.2",
+    "marked": "^18.0.3",
+    "plyr": "^3.8.4",
     "unpic": "^4.2.2"
   },
   "devDependencies": {
@@ -45,6 +47,7 @@
     "@iconify-json/tabler": "^1.2.20",
     "@tailwindcss/typography": "^0.5.19",
     "@tailwindcss/vite": "^4.3.0",
+    "@tinacms/cli": "^2.3.1",
     "@types/js-yaml": "^4.0.9",
     "@types/lodash.merge": "^4.6.9",
     "@types/mdx": "^2.0.13",
@@ -63,6 +66,7 @@
     "sharp": "0.34.5",
     "tailwind-merge": "^3.6.0",
     "tailwindcss": "^4.3.0",
+    "tinacms": "^3.8.1",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.59.2"
   },

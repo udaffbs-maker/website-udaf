@@ -64,15 +64,52 @@ import { UI } from 'astrowind:config';
       document.querySelector('#header > div > div:last-child')?.classList.toggle('hidden');
     });
 
-    attachEvent('[data-aw-toggle-color-scheme]', 'click', function () {
+    attachEvent('[data-aw-toggle-dropdown]', 'click', function (e, elem) {
+      if (window.innerWidth < 768) {
+        e.preventDefault();
+        const menu = elem.nextElementSibling;
+        menu?.classList.toggle('hidden');
+      }
+    });
+
+    attachEvent('[data-aw-toggle-color-scheme]', 'click', function (e) {
       if (defaultTheme.endsWith(':only')) {
         return;
       }
 
-      Observer.removeAnimationDelay();
+      const isAppearanceTransition =
+        document.startViewTransition && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      document.documentElement.classList.toggle('dark');
-      localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+      if (!isAppearanceTransition) {
+        Observer.removeAnimationDelay();
+        document.documentElement.classList.toggle('dark');
+        localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+        return;
+      }
+
+      const x = e.clientX;
+      const y = e.clientY;
+      const endRadius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+
+      const transition = document.startViewTransition(async () => {
+        Observer.removeAnimationDelay();
+        document.documentElement.classList.toggle('dark');
+        localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+      });
+
+      transition.ready.then(() => {
+        const clipPath = [`circle(0px at ${x}px ${y}px)`, `circle(${endRadius}px at ${x}px ${y}px)`];
+        document.documentElement.animate(
+          {
+            clipPath: clipPath,
+          },
+          {
+            duration: 500,
+            easing: 'ease-in-out',
+            pseudoElement: '::view-transition-new(root)',
+          }
+        );
+      });
     });
 
     attachEvent('[data-aw-social-share]', 'click', function (_, elem) {
@@ -168,7 +205,7 @@ import { UI } from 'astrowind:config';
   /* Inspired by: https://github.com/heidkaemper/tailwindcss-intersect */
   const Observer = {
     observer: null,
-    delayBetweenAnimations: 100,
+    delayBetweenAnimations: 80,
     animationCounter: 0,
     elements: null,
 

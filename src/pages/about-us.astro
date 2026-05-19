@@ -1,155 +1,93 @@
 ---
 import Features2 from '~/components/widgets/Features2.astro';
 import Features3 from '~/components/widgets/Features3.astro';
-import Hero from '~/components/widgets/Hero.astro';
-import Content from '~/components/widgets/Content.astro';
+import FacultyCarousel from '~/components/widgets/FacultyCarousel.astro';
 import Layout from '~/layouts/PageLayout.astro';
+import Image from '~/components/common/Image.astro';
+import yaml from 'js-yaml';
+import fs from 'fs';
+import path from 'path';
+import type { FacultyMessage } from '~/components/widgets/FacultyCarousel.astro';
+import type { Item } from '~/types';
 
-const metadata = {
-  title: 'About Us',
-};
+interface AboutUsData {
+  metadata: { title: string };
+  hero: { tagline?: string; title?: string; subtitle?: string };
+  journey: { title?: string; content?: string; image?: { src: string; alt: string } };
+  purpose: { title?: string; subtitle?: string; items?: Item[] };
+  objectives: { title?: string; subtitle?: string; items?: Item[] };
+  facultyMessages: { title?: string; messages: FacultyMessage[] };
+}
+
+const aboutUsData = yaml.load(
+  fs.readFileSync(path.resolve('./src/data/pages/about-us.yaml'), 'utf8')
+) as AboutUsData;
+const { metadata, hero, journey, purpose, objectives, facultyMessages } = aboutUsData;
 ---
 
 <Layout metadata={metadata}>
-  <!-- Hero Widget ******************* -->
-
-  <Hero tagline="Discover Our Story" title="About UDAF">
-    <Fragment slot="subtitle">
-      The only registered business and communication club of the Faculty of Business Studies (FBS), University of Dhaka.
-    </Fragment>
-  </Hero>
-
-  <!-- Content Widget **************** -->
-
-  <Content
-    isReversed
-    title="Our Journey"
-    image={{
-      src: '~/assets/images/about-us/Journey.jpeg',
-      alt: 'Our Journey Image',
-    }}
-  >
-    <Fragment slot="content">
-      We came across a realization that the modern corporate world is being dynamic at every moment. In order to cope up with this change, we believe that along with a standard CGPA it is also equally necessary to have good communication skills and up to date knowledge about the current business affairs while in turn secure a bright career. We also believe that every student of Accounting & Information Systems does have some inherent qualities and potentiality. Not only this we also feel that developing stronger ties with the corporate body is crucial to strengthen our diversity and proudly represent the AIS individuals. Upon these facts, we feel motivated to take the initiative to form this community, the only registered business and communication club of Faculty of Business Studies (FBS), University of Dhaka.We maintain a strong network & interaction among the club members. We create a corporate environment, formulate and practice behavior keeping pace with Corporate Code of Conduct (CCC). We build sustainable relationships with business personnel and entities. UDAF bridges the gap between faculty members and students of the department through organizing different events and seminars. We also feel the need of networking and experience sharing among the members and alumni and incoming members as well. We aim to become the pioneer of generating quality business leaders. Our activities include: workshops/seminars on case solving based competitions, business plan & idea writing, resume writing and interview tips, effective presentation designing techniques, intra university business plan competition, debate, quiz, case solving competition and sports. The multi-talented and extraordinary UDAF individuals never fail to stamp their distinctive competence with tremendous success and achievements in different spheres of the corporate world and that is what makes UDAF a good place to acquire skills and practice how to organize and how to be organized.
-    </Fragment>
-  </Content>
+  <!-- Journey Section (Shadcn-styled) -->
+  <section class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 lg:py-24">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16 items-center">
+      <!-- Text Side -->
+      <div class="space-y-6 md:space-y-8 order-2 md:order-1">
+        <div class="space-y-4">
+          <div class="inline-flex items-center rounded-full border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/30 px-3 py-1 text-xs font-semibold text-primary transition-colors hover:bg-blue-100 dark:hover:bg-blue-900/50">
+            About Us
+          </div>
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 dark:text-white font-heading">
+            {journey.title}
+          </h1>
+          {hero.subtitle && (
+            <p class="text-lg md:text-xl text-muted dark:text-slate-400 font-medium leading-relaxed">
+              {hero.subtitle}
+            </p>
+          )}
+        </div>
+        
+        <div class="prose prose-sm md:prose-base dark:prose-invert text-muted dark:text-slate-400 leading-relaxed text-justify max-w-none">
+          {journey.content?.split('\n\n').map((paragraph) => (
+            paragraph.trim() ? <p class="mb-4">{paragraph.trim()}</p> : null
+          ))}
+        </div>
+      </div>
+      
+      <!-- Image Side -->
+      <div class="order-1 md:order-2 relative aspect-square md:aspect-[4/5] rounded-2xl overflow-hidden border border-gray-200 dark:border-slate-800 shadow-xl shadow-black/5 dark:shadow-black/20">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10 rounded-2xl pointer-events-none"></div>
+        {journey.image && (
+          <Image
+            src={journey.image.src}
+            alt={journey.image.alt || 'Our Journey'}
+            width={800}
+            height={1000}
+            class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+          />
+        )}
+      </div>
+    </div>
+  </section>
 
   <!-- Features3 Widget ************** -->
-
   <Features3
-    title="Purpose & Direction"
-    subtitle="The driving forces behind every initiative at UDAF."
+    title={purpose.title}
+    subtitle={purpose.subtitle}
     columns={3}
     isBeforeContent={true}
-    items={[
-      {
-        title: 'Our Vision',
-        description:
-          'Empowering future AIS individuals through knowledge exchange, networking and practical skill development.',
-        icon: 'tabler:eye',
-      },
-      {
-        title: 'Our Mission',
-        description:
-          'UDAF seeks to establish a cohesive and engaged community, amplifying the achievements and opportunities of its members while strengthening connections with the broader academic and professional ecosystem.',
-        icon: 'tabler:rocket',
-      },
-      {
-        title: 'Our Goal',
-        description:
-          "Bridging students & faculty through strategic communication, events, and collaborations, elevating UDAF's visibility by promoting unity and growth within the Accounting Department.",
-        icon: 'tabler:target',
-      },
-    ]}
+    items={purpose.items}
   />
 
   <!-- Features2 Widget ************** -->
-
   <Features2
-    title="Our Objectives"
-    subtitle="What we strive to achieve every day to build a better community."
+    title={objectives.title}
+    subtitle={objectives.subtitle}
     columns={3}
-    items={[
-      {
-        title: 'Corporate Environment',
-        description:
-          'To create a corporate environment in the club & formulate behavior keeping pace with the Corporate Code of Conduct (CCC).',
-        icon: 'tabler:building-skyscraper',
-      },
-      {
-        title: 'Corporate Network',
-        description:
-          "To network with organizations that have business interests in Bangladesh, enhancing members' understanding of business issues.",
-        icon: 'tabler:network',
-      },
-      {
-        title: 'Alumni Support',
-        description:
-          'To maintain an ongoing support network for members and alumni of A&IS to share experiences with incoming members.',
-        icon: 'tabler:users-group',
-      },
-      {
-        title: 'Student-Faculty Bridge',
-        description:
-          'To bridge the gap between the students & the teachers of the department through organizing events or seminars.',
-        icon: 'tabler:building-bridge',
-      },
-      {
-        title: 'Member Interaction',
-        description: 'To ensure a strong network & interaction among the members of the club.',
-        icon: 'tabler:messages',
-      },
-      {
-        title: 'Sustainable Networks',
-        description: 'To build a wide & sustainable network with business persons and entities.',
-        icon: 'tabler:leaf',
-      },
-      {
-        title: 'Corporate Representation',
-        description: 'To represent our department to the corporate world with excellence & perfection.',
-        icon: 'tabler:briefcase',
-      },
-      {
-        title: 'Pioneering Leaders',
-        description: 'To be the pioneer in the area of creating quality business leaders.',
-        icon: 'tabler:award',
-      },
-    ]}
+    items={objectives.items}
   />
 
-  <!-- Content Widget (Testimonial) *** -->
-
-  <Content
-    title="Faculty Message"
-    image={{
-      src: '~/assets/images/about-us/Dhiman-Sir-300x300.jpg',
-      alt: 'Dr. Dhiman Kumar Chowdhury',
-    }}
-  >
-    <Fragment slot="content">
-      <div class="prose prose-lg dark:prose-invert">
-        <p class="text-muted">
-          "It is a great pleasure and honor for me to address University of Dhaka Accounting Forum (UDAF), a group of
-          bright minds working toward the betterment of the students of this department. To me, UDAF is like an extra
-          pair of hands for the department."
-        </p>
-        <p class="text-muted">
-          "UDAF plays a significant role in shaping the students of our department for a competitive future. It has
-          organized many events, like business case competitions, speaking competitions, and numerous insightful
-          sessions."
-        </p>
-        <p class="text-muted">
-          "I, as the Chairman of the Department of Accounting and Information Systems, wish a very bright future for
-          UDAF. Your journey here will shape your future. We are here to support and guide you every step of the way.
-          Together, let us continue to strive for excellence."
-        </p>
-      </div>
-
-      <div class="mt-8 border-t border-gray-200 dark:border-slate-700 pt-6">
-        <h4 class="font-heading text-lg font-bold">Dr. Dhiman Kumar Chowdhury</h4>
-        <p class="text-sm text-primary uppercase font-semibold">Chairman</p>
-        <p class="text-sm text-muted">Department of Accounting & Information Systems</p>
-      </div>
-    </Fragment>
-  </Content>
+  <!-- Faculty Messages Carousel *** -->
+  <FacultyCarousel
+    title={facultyMessages.title}
+    messages={facultyMessages.messages}
+  />
 </Layout>

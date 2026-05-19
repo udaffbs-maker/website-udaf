@@ -1,0 +1,64 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '~/layouts/PageLayout.astro';
+import Carousel from '~/components/ui/Carousel.astro';
+import Button from '~/components/ui/Button.astro';
+import Countdown from '~/components/ui/Countdown.astro';
+import Registration from '~/components/ui/Registration.astro';
+import RegistrationSteps from '~/components/ui/RegistrationSteps.astro';
+import Video from '~/components/ui/Video.astro';
+import { Icon } from 'astro-icon/components';
+import Steps from '~/components/widgets/Steps.astro';
+import Features from '~/components/widgets/Features.astro';
+
+export async function getStaticPaths() {
+  const events = await getCollection('event');
+  return events.map((event) => ({
+    params: { slug: event.data.slug || event.id },
+    props: { event },
+  }));
+}
+
+const { event } = Astro.props;
+const { Content } = await render(event);
+
+const metadata = {
+  title: event.data.title,
+  ...event.data.metadata,
+};
+
+const components = {
+  Carousel,
+  Button,
+  Countdown,
+  Registration,
+  RegistrationSteps,
+  Video,
+  Icon,
+  Steps,
+  Features,
+};
+---
+
+<Layout metadata={metadata}>
+  <section class="px-4 py-16 sm:px-6 mx-auto lg:px-8 lg:py-20 max-w-4xl">
+    <header class="text-center mb-12">
+      <h1 class="font-bold font-heading text-4xl md:text-6xl mb-4 text-gray-900 dark:text-white tracking-tight">
+        {event.data.title}
+      </h1>
+      <div class="w-20 h-1.5 bg-primary mx-auto rounded-full"></div>
+    </header>
+
+    {event.data.videoUrl && (
+      <div class="mb-12 max-w-4xl mx-auto">
+        <Video url={event.data.videoUrl} />
+      </div>
+    )}
+
+    <div
+      class="mx-auto prose prose-lg max-w-4xl dark:prose-invert dark:prose-headings:text-slate-300 prose-md prose-headings:font-heading prose-headings:leading-tighter prose-headings:tracking-tighter prose-headings:font-bold prose-a:text-primary dark:prose-a:text-blue-400 prose-img:rounded-2xl prose-img:shadow-2xl mt-8"
+    >
+      <Content components={components} />
+    </div>
+  </section>
+</Layout>

@@ -55,6 +55,7 @@ const postCollection = defineCollection({
     draft: z.boolean().optional(),
 
     title: z.string(),
+    videoUrl: z.string().optional(),
     excerpt: z.string().optional(),
     image: z.string().optional(),
 
@@ -66,6 +67,40 @@ const postCollection = defineCollection({
   }),
 });
 
+const eventCollection = defineCollection({
+  loader: glob({ pattern: ['**/*.md', '**/*.mdx'], base: 'src/data/events' }),
+  schema: z.object({
+    title: z.string(),
+    videoUrl: z.string().optional(),
+    date: z.date().optional(),
+    image: z.string().optional(),
+    coverImage: z.string().optional(),
+
+    metadata: metadataDefinition(),
+  }),
+});
+
+const wingCollection = defineCollection({
+  loader: glob({ pattern: ['*.md', '*.mdx'], base: 'src/data/wings' }),
+  schema: z.object({
+    title: z.string(),
+    videoUrl: z.string().optional(),
+    metadata: metadataDefinition(),
+  }),
+});
+
+const legalCollection = defineCollection({
+  loader: glob({ pattern: ['*.md', '*.mdx'], base: 'src/data/legal' }),
+  schema: z.object({
+    title: z.string(),
+    videoUrl: z.string().optional(),
+    metadata: metadataDefinition(),
+  }),
+});
+
 export const collections = {
   post: postCollection,
+  event: eventCollection,
+  wing: wingCollection,
+  legal: legalCollection,
 };

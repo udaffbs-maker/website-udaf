@@ -12,10 +12,13 @@ const {
   content = await Astro.slots.render('content'),
   actions = await Astro.slots.render('actions'),
   image = await Astro.slots.render('image'),
+  images = [],
 
   id,
   bg = await Astro.slots.render('bg'),
 } = Astro.props;
+
+const imagesList = images && images.length > 0 ? images : (image ? [image] : []);
 ---
 
 <section class="relative md:-mt-[76px] not-prose" {...id ? { id } : {}}>
@@ -42,7 +45,7 @@ const {
         {
           tagline && (
             <p
-              class="text-base text-secondary dark:text-blue-200 font-bold tracking-wide uppercase intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade"
+              class="text-base text-secondary dark:text-blue-200 font-bold tracking-wide uppercase intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade-down"
               set:html={tagline}
             />
           )
@@ -50,7 +53,7 @@ const {
         {
           title && (
             <h1
-              class="text-5xl md:text-6xl font-bold leading-tighter tracking-tighter mb-4 font-heading dark:text-gray-200 intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade"
+              class="text-5xl md:text-6xl font-bold leading-tighter tracking-tighter mb-4 font-heading dark:text-gray-200 intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade-up"
               set:html={title}
             />
           )
@@ -59,14 +62,14 @@ const {
           {
             subtitle && (
               <p
-                class="text-xl text-muted mb-6 dark:text-slate-300 intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade"
+                class="text-xl text-muted mb-6 dark:text-slate-300 intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade-up"
                 set:html={subtitle}
               />
             )
           }
           {
             actions && (
-              <div class="max-w-xs sm:max-w-md m-auto flex flex-nowrap flex-col sm:flex-row sm:justify-center gap-4 intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade">
+              <div class="max-w-xs sm:max-w-md m-auto flex flex-nowrap flex-col sm:flex-row sm:justify-center gap-4 intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade-up">
                 {Array.isArray(actions) ? (
                   actions.map((action) => (
                     <div class="flex w-full sm:w-auto">
@@ -82,26 +85,33 @@ const {
         </div>
         {content && <Fragment set:html={content} />}
       </div>
-      <div
-        class="intersect-once intersect-no-queue intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade"
-      >
+      <div class="relative m-auto w-full max-w-5xl">
         {
-          image && (
-            <div class="relative m-auto max-w-5xl">
-              {typeof image === 'string' ? (
-                <Fragment set:html={image} />
-              ) : (
-                <Image
-                  class="mx-auto rounded-md w-full"
-                  widths={[400, 768, 1024, 2040]}
-                  sizes="(max-width: 767px) 400px, (max-width: 1023px) 768px, (max-width: 2039px) 1024px, 2040px"
-                  loading="eager"
-                  fetchpriority="high"
-                  width={1024}
-                  height={576}
-                  {...image}
-                />
-              )}
+          imagesList && imagesList.length > 0 && (
+            <div class="hero-slider-container relative w-full overflow-hidden bg-black rounded-xl shadow-2xl" style="aspect-ratio: 16/9;">
+              {imagesList.map((img, index) => (
+                <div 
+                  class={`hero-slide absolute inset-0 transition-opacity duration-1500 ease-in-out ${index === 0 ? 'opacity-100 z-10 is-active' : 'opacity-0 z-0'}`} 
+                  data-hero-slide
+                >
+                  {typeof img === 'string' ? (
+                    <Fragment set:html={img} />
+                  ) : (
+                    <div class="hero-img-wrapper w-full h-full overflow-hidden">
+                      <Image
+                        class="hero-img w-full h-full object-cover block transition-transform duration-[6000ms] ease-out"
+                        widths={[400, 768, 1024, 2040]}
+                        sizes="(max-width: 767px) 400px, (max-width: 1023px) 768px, (max-width: 2039px) 1024px, 2040px"
+                        loading={index === 0 ? "eager" : "lazy"}
+                        fetchpriority={index === 0 ? "high" : "low"}
+                        width={1024}
+                        height={576}
+                        {...img}
+                      />
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
           )
         }
@@ -109,3 +119,55 @@ const {
     </div>
   </div>
 </section>
+
+<style is:global>
+  .hero-slider-container .hero-img,
+  .hero-slider-container img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    display: block !important;
+    max-width: none !important;
+    max-height: none !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    transform: scale(1.0);
+  }
+
+  .hero-slide.is-active .hero-img,
+  .hero-slide.is-active img {
+    transform: scale(1.1) !important;
+  }
+</style>
+
+<script>
+  const setupHeroSlider = () => {
+    const slides = document.querySelectorAll('[data-hero-slide]');
+    if (slides.length <= 1) return;
+
+    let currentSlide = 0;
+    const interval = 5000; // 5 seconds for a nice pace
+
+    const nextSlide = () => {
+      // Reset current slide
+      slides[currentSlide].classList.remove('opacity-100', 'z-10', 'is-active');
+      slides[currentSlide].classList.add('opacity-0', 'z-0');
+      
+      currentSlide = (currentSlide + 1) % slides.length;
+      
+      // Activate next slide
+      slides[currentSlide].classList.remove('opacity-0', 'z-0');
+      slides[currentSlide].classList.add('opacity-100', 'z-10', 'is-active');
+    };
+
+    const slideInterval = setInterval(nextSlide, interval);
+
+    // Clean up interval on document change (for view transitions)
+    document.addEventListener('astro:before-swap', () => clearInterval(slideInterval), { once: true });
+  };
+
+  // Run on page load and on view transitions
+  setupHeroSlider();
+  document.addEventListener('astro:after-swap', setupHeroSlider);
+</script>

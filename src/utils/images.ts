@@ -8,7 +8,7 @@ type OptimizedImage = Awaited<ReturnType<ImagesOptimizer>>[0];
 const load = async function () {
   let images: Record<string, () => Promise<unknown>> | undefined = undefined;
   try {
-    images = import.meta.glob('~/assets/images/**/*.{jpeg,jpg,png,tiff,webp,gif,svg,JPEG,JPG,PNG,TIFF,WEBP,GIF,SVG}');
+    images = import.meta.glob('/src/assets/images/**/*.{jpeg,jpg,png,tiff,webp,gif,svg,JPEG,JPG,PNG,TIFF,WEBP,GIF,SVG}');
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     // continue regardless of error
@@ -34,17 +34,34 @@ export const findImage = async (
   }
 
   // Absolute paths
-  if (imagePath.startsWith('http://') || imagePath.startsWith('https://') || imagePath.startsWith('/')) {
+  if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
     return imagePath;
   }
 
-  // Relative paths or not "~/assets/"
-  if (!imagePath.startsWith('~/assets/images')) {
+  // Handle TinaCMS default paths starting with /images/
+  // If it's in public/images, we should return it as an absolute path for the browser
+  // unless we want Astro to optimize it, in which case we'd need it in src/assets
+  if (imagePath.startsWith('/images/')) {
+    return imagePath;
+  }
+
+  // Normalize to /src/assets/ if using ~/assets/
+  if (imagePath.startsWith('~/assets/')) {
+    imagePath = imagePath.replace('~/', '/src/');
+  }
+
+  // Absolute paths in public
+  if (imagePath.startsWith('/') && !imagePath.startsWith('/src/assets/images')) {
+    return imagePath;
+  }
+
+  // Relative paths or not "/src/assets/images"
+  if (!imagePath.startsWith('/src/assets/images')) {
     return imagePath;
   }
 
   const images = await fetchLocalImages();
-  const key = imagePath.replace('~/', '/src/');
+  const key = imagePath;
 
   return images && typeof images[key] === 'function'
     ? ((await images[key]()) as { default: ImageMetadata })['default']

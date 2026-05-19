@@ -1,145 +1,88 @@
 ---
-import Layout from '~/layouts/PageLayout.astro';
+import fs from 'node:fs';
+import path from 'node:path';
+import yaml from 'js-yaml';
 
+import Layout from '~/layouts/PageLayout.astro';
 import Hero from '~/components/widgets/Hero.astro';
 import Features from '~/components/widgets/Features.astro';
 import Content from '~/components/widgets/Content.astro';
 import Stats from '~/components/widgets/Stats.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 
-const metadata = {
-  title: 'UDAF - University of Dhaka Accounting Forum',
-  ignoreTitleTemplate: true,
-};
+const homeDataPath = path.join(process.cwd(), 'src/data/pages/home.yaml');
+const data = yaml.load(fs.readFileSync(homeDataPath, 'utf8')) as any;
+const { metadata, hero, stats, features, about, cta } = data;
 ---
 
 <Layout metadata={metadata}>
   <!-- Hero Widget ******************* -->
 
-  <Hero
-    actions={[
-      {
-        variant: 'primary',
-        text: 'Learn more',
-        href: '/about-us',
-      },
-      { text: 'Our Events', href: '/events' },
-    ]}
-    image={{ src: '~/assets/images/hero.jpg', alt: 'UDAF Hero Image' }}
-  >
+  <Hero actions={hero.actions} tagline="Welcome to UDAF" images={hero.images}>
     <Fragment slot="title">
-      <span class="text-3xl md:text-5xl">University of Dhaka</span>
+      {hero.title1}
       <br />
-      <span
-        class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent dark:from-blue-400 dark:to-purple-500 text-5xl md:text-7xl font-extrabold tracking-tight"
-        >Accounting Forum</span
-      >
+      <span class="highlight">
+        {hero.title2}
+      </span>
     </Fragment>
 
     <Fragment slot="subtitle">
-      Connect, Collaborate, Celebrate. <br />
-      UDAF is the only registered business and communication club of Faculty of Business Studies (FBS), University of Dhaka.
-      We aim to become the pioneer of generating quality business leaders.
+      <Fragment set:html={hero.subtitle} />
     </Fragment>
   </Hero>
 
   <!-- Stats Widget ****************** -->
 
-  <Stats
-    stats={[
-      { title: 'Years of Excellence', amount: '5+' },
-      { title: 'Club Members', amount: '100+' },
-      { title: 'General Members', amount: '500+' },
-      { title: 'Alumni', amount: '200+' },
-    ]}
-  />
+  <Stats stats={stats} />
 
   <!-- Features Widget *************** -->
 
   <Features
     id="features"
-    tagline="Activities"
-    title="What UDAF Offers"
-    subtitle="Empowering future AIS individuals through knowledge exchange, networking and practical skill development."
-    items={[
-      {
-        title: 'Workshops & Seminars',
-        description: 'On case solving, business plan writing, resume writing, and interview tips.',
-        icon: 'tabler:school',
-      },
-      {
-        title: 'Competitions',
-        description: 'Intra-university business plan competitions, debates, quizzes, and case solving.',
-        icon: 'tabler:trophy',
-      },
-      {
-        title: 'Networking',
-        description: 'Building sustainable relationships with business personnel and entities.',
-        icon: 'tabler:users',
-      },
-      {
-        title: 'Corporate Culture',
-        description: 'Practicing behavior keeping pace with Corporate Code of Conduct (CCC).',
-        icon: 'tabler:briefcase',
-      },
-    ]}
+    tagline={features.tagline}
+    title={features.title}
+    subtitle={features.subtitle}
+    items={features.items}
   />
 
   <!-- Content Widget **************** -->
 
-  <Content
-    isReversed
-    tagline="About Us"
-    title="Our Journey & Vision"
-    items={[
-      {
-        title: 'Dynamic Corporate World',
-        description:
-          'In order to cope with the changing business landscape, we believe communication skills and up-to-date knowledge are essential.',
-      },
-      {
-        title: 'AIS Potential',
-        description:
-          'Every student of Accounting & Information Systems has inherent qualities and potentiality that we aim to nurture.',
-      },
-      {
-        title: 'Bridging the Gap',
-        description:
-          'UDAF bridges the gap between faculty members and students through organizing different events and seminars.',
-      },
-    ]}
-    image={{
-      src: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-      alt: 'Team Collaboration',
-    }}
-  >
+  <Content isReversed tagline={about.tagline} title={about.title} items={about.items} image={about.image}>
     <Fragment slot="content">
-      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">Empowering Future Leaders</h3>
-      We create a corporate environment where talented AIS individuals can excel and secure bright careers.
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">{about.subtitle}</h3>
+      <div class="text-muted dark:text-slate-400">
+        {about.description}
+      </div>
     </Fragment>
 
     <Fragment slot="bg">
-      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
+      <div class="absolute inset-0 bg-blue-50/50 dark:bg-transparent"></div>
     </Fragment>
   </Content>
 
   <!-- CallToAction Widget *********** -->
 
-  <CallToAction
-    actions={[
-      {
-        variant: 'primary',
-        text: 'Join Us',
-        href: '/contact-us',
-      },
-    ]}
-  >
+  <CallToAction actions={cta.actions}>
     <Fragment slot="title">
-      Ready to start your <br class="block sm:hidden" /><span class="sm:whitespace-nowrap">corporate journey?</span>
+      <Fragment set:html={cta.title} />
     </Fragment>
 
     <Fragment slot="subtitle">
-      Connect with the UDAF community today and take the first step towards a successful career.
+      {cta.subtitle}
     </Fragment>
   </CallToAction>
 </Layout>
+
+<style>
+  .highlight {
+    background-image: linear-gradient(to right, #3d7dc1, #1e40af);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  :global(.dark) .highlight {
+    background-image: linear-gradient(to right, #93c5fd, #ffffff);
+  }
+</style>

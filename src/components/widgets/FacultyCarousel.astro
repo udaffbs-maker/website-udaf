@@ -1,0 +1,244 @@
+---
+import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
+import Headline from '~/components/ui/Headline.astro';
+import Image from '~/components/common/Image.astro';
+import { Icon } from 'astro-icon/components';
+
+export interface FacultyMessage {
+  name: string;
+  role: string;
+  department?: string;
+  image: string;
+  message: string;
+}
+
+export interface Props {
+  title?: string;
+  subtitle?: string;
+  tagline?: string;
+  messages: FacultyMessage[];
+  id?: string;
+  isDark?: boolean;
+}
+
+const { title, subtitle, tagline, messages = [], id, isDark = false } = Astro.props;
+---
+
+<WidgetWrapper id={id} isDark={isDark} containerClass="max-w-6xl mx-auto py-16 px-4">
+  <Headline title={title} subtitle={subtitle} tagline={tagline} />
+
+  <div class="relative not-prose mt-14" data-faculty-carousel>
+
+    {/* Slides Viewport */}
+    <div class="fc-viewport overflow-hidden rounded-2xl" style="transition: height 0.55s cubic-bezier(0.65,0,0.35,1);">
+      <div class="fc-track flex items-start" style="transition: transform 0.55s cubic-bezier(0.65,0,0.35,1);">
+        {
+          messages.map((item, index) => (
+            <div class="fc-slide flex-none w-full" data-index={index}>
+
+              {/* ── Card shell ── */}
+              <div class="fc-card relative grid md:grid-cols-[1fr_2fr] gap-0 rounded-2xl overflow-hidden border border-slate-200/80 dark:border-slate-700/60 bg-white dark:bg-slate-900 shadow-lg dark:shadow-none">
+
+                {/* ── Left panel: photo + name ── */}
+                <div class="fc-left flex flex-col items-center justify-center gap-5 p-8 md:p-12 bg-slate-50 dark:bg-slate-800/60 border-b md:border-b-0 md:border-r border-slate-200/80 dark:border-slate-700/60">
+
+                  {item.image ? (
+                    <div class="fc-avatar relative w-28 h-28 md:w-36 md:h-36 rounded-2xl overflow-hidden ring-4 ring-white dark:ring-slate-800 shadow-xl">
+                      <Image
+                        src={item.image}
+                        alt={item.name}
+                        width={400}
+                        height={400}
+                        class="object-cover w-full h-full"
+                      />
+                    </div>
+                  ) : (
+                    <div class="fc-avatar w-28 h-28 md:w-36 md:h-36 rounded-2xl bg-primary/10 dark:bg-primary/20 flex items-center justify-center ring-4 ring-white dark:ring-slate-800 shadow-xl">
+                      <Icon name="tabler:user" class="w-14 h-14 text-primary/60" />
+                    </div>
+                  )}
+
+                  <div class="text-center">
+                    <h3 class="text-base md:text-lg font-semibold text-slate-900 dark:text-slate-50 leading-snug">
+                      {item.name}
+                    </h3>
+                    <p class="mt-1 text-xs font-semibold uppercase tracking-widest text-primary">
+                      {item.role}
+                    </p>
+                    {item.department && (
+                      <p class="mt-1.5 text-xs text-slate-500 dark:text-slate-400 leading-snug max-w-[16ch] mx-auto">
+                        {item.department}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Slide counter badge */}
+                  {messages.length > 1 && (
+                    <span class="fc-badge absolute bottom-4 right-4 text-[10px] font-bold tracking-wider text-slate-400 dark:text-slate-500 tabular-nums">
+                      <span data-current-num>01</span>
+                      <span class="mx-1 opacity-40">/</span>
+                      {messages.length.toString().padStart(2, '0')}
+                    </span>
+                  )}
+                </div>
+
+                {/* ── Right panel: quote ── */}
+                <div class="fc-right relative flex flex-col justify-center p-8 md:p-12 lg:p-16">
+
+                  {/* Decorative huge quote glyph */}
+                  <span
+                    class="absolute top-6 right-8 text-[7rem] leading-none font-serif select-none text-slate-100 dark:text-slate-800 pointer-events-none"
+                    aria-hidden="true"
+                  >&ldquo;</span>
+
+                  <blockquote class="relative z-10">
+                    {item.message.split('\n\n').filter(p => p.trim()).map((para, i) => (
+                      <p class={`text-sm md:text-base lg:text-[1.0625rem] text-slate-600 dark:text-slate-300 leading-relaxed${i > 0 ? ' mt-4' : ''}`}>
+                        {para.replace(/^"|"$/g, '').trim()}
+                      </p>
+                    ))}
+                  </blockquote>
+                </div>
+
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    {/* ── Navigation controls ── */}
+    {messages.length > 1 && (
+      <>
+        {/* Prev / Next buttons */}
+        <div class="flex justify-center items-center gap-3 mt-8">
+          <button
+            class="fc-btn-prev group inline-flex items-center justify-center w-10 h-10 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed shadow-sm"
+            data-prev
+            aria-label="Previous message"
+          >
+            <Icon name="tabler:chevron-left" class="w-5 h-5" />
+          </button>
+
+          {/* Dot indicators */}
+          <div class="flex items-center gap-2" role="tablist">
+            {messages.map((_, i) => (
+              <button
+                class="fc-dot w-2 h-2 rounded-full bg-slate-200 dark:bg-slate-700 transition-all duration-300"
+                data-dot={i}
+                role="tab"
+                aria-label={`Go to message ${i + 1}`}
+              />
+            ))}
+          </div>
+
+          <button
+            class="fc-btn-next group inline-flex items-center justify-center w-10 h-10 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed shadow-sm"
+            data-next
+            aria-label="Next message"
+          >
+            <Icon name="tabler:chevron-right" class="w-5 h-5" />
+          </button>
+        </div>
+      </>
+    )}
+
+  </div>
+</WidgetWrapper>
+
+<style>
+  @reference "../../assets/styles/tailwind.css";
+
+  .fc-dot.active {
+    @apply bg-primary w-5;
+  }
+</style>
+
+<script>
+  function setupFacultyCarousel(container: HTMLElement) {
+    const track = container.querySelector('.fc-track') as HTMLElement;
+    const items = container.querySelectorAll('[data-index]');
+    const prevBtn = container.querySelector('[data-prev]') as HTMLButtonElement | null;
+    const nextBtn = container.querySelector('[data-next]') as HTMLButtonElement | null;
+    const dots = container.querySelectorAll('[data-dot]');
+    const currentNums = container.querySelectorAll('[data-current-num]');
+
+    if (!track || items.length <= 1) {
+      // With a single item, still mark the first dot active if present
+      dots[0]?.classList.add('active');
+      return;
+    }
+
+    let current = 0;
+    const total = items.length;
+    const viewport = container.querySelector('.fc-viewport') as HTMLElement;
+
+    // Auto-play logic
+    let autoplayInterval: number | null = null;
+    const AUTOPLAY_DELAY = 6000; // 6 seconds
+
+    const startAutoplay = () => {
+      stopAutoplay();
+      autoplayInterval = window.setInterval(() => {
+        go((current + 1) % total);
+      }, AUTOPLAY_DELAY);
+    };
+
+    const stopAutoplay = () => {
+      if (autoplayInterval) {
+        clearInterval(autoplayInterval);
+        autoplayInterval = null;
+      }
+    };
+
+    const go = (index: number) => {
+      current = (index + total) % total; // Support wrapping for autoplay
+      track.style.transform = `translateX(-${current * 100}%)`;
+
+      const activeSlide = items[current] as HTMLElement;
+      if (activeSlide && viewport) {
+        viewport.style.height = `${activeSlide.offsetHeight}px`;
+      }
+
+      dots.forEach((dot, i) => dot.classList.toggle('active', i === current));
+      currentNums.forEach(el => {
+        el.textContent = (current + 1).toString().padStart(2, '0');
+      });
+
+      if (prevBtn) prevBtn.disabled = false;
+      if (nextBtn) nextBtn.disabled = false;
+    };
+
+    window.addEventListener('resize', () => {
+      const activeSlide = items[current] as HTMLElement;
+      if (activeSlide && viewport) {
+        viewport.style.height = `${activeSlide.offsetHeight}px`;
+      }
+    });
+
+    prevBtn?.addEventListener('click', () => { stopAutoplay(); go(current - 1); startAutoplay(); });
+    nextBtn?.addEventListener('click', () => { stopAutoplay(); go(current + 1); startAutoplay(); });
+    dots.forEach((dot, i) => dot.addEventListener('click', () => { stopAutoplay(); go(i); startAutoplay(); }));
+
+    container.addEventListener('mouseenter', stopAutoplay);
+    container.addEventListener('mouseleave', startAutoplay);
+
+    // Touch / swipe support
+    let startX = 0;
+    viewport?.addEventListener('touchstart', (e: TouchEvent) => { startX = e.touches[0].clientX; stopAutoplay(); }, { passive: true });
+    viewport?.addEventListener('touchend', (e: TouchEvent) => {
+      const dx = e.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 50) go(dx < 0 ? current + 1 : current - 1);
+      startAutoplay();
+    }, { passive: true });
+
+    go(0);
+    startAutoplay();
+  }
+
+  document.addEventListener('astro:page-load', () => {
+    document.querySelectorAll('[data-faculty-carousel]').forEach(el =>
+      setupFacultyCarousel(el as HTMLElement)
+    );
+  });
+</script>

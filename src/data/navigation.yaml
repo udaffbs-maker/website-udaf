@@ -1,0 +1,110 @@
+header:
+  links:
+    - text: Home
+      href: /
+    - text: About
+      href: /about-us
+    - text: Committee
+      links:
+        - text: Executive Committee 2025-26
+          href: /committees/executive-committee-2025-26
+        - text: Executive Committee 2025
+          href: /committees/executive-committee-2025
+        - text: Committee 23-24
+          href: /committees/committee-23-24
+    - text: Wings
+      links:
+        - text: Art & Cultural Activities
+          href: /wings/art-cultural-activities
+        - text: Career & Corporate Affairs
+          href: /wings/career-corporate-affairs
+        - text: Events & Logistics
+          href: /wings/events-logistics
+        - text: Graphics & IT
+          href: /wings/graphics-it
+        - text: HR & Documentation
+          href: /wings/hr-documentation
+        - text: Photography
+          href: /wings/photography
+        - text: PR & Communication
+          href: /wings/pr-communication
+        - text: Promotion & Content Development
+          href: /wings/promotion-content-development
+        - text: Sports & Entertainment
+          href: /wings/sports-entertainment
+    - text: Events
+      links:
+        - text: Badminton PRO
+          links:
+            - text: Badminton PRO 4.0
+              href: /events/badminton-pro/4-0
+            - text: Badminton PRO 3.0
+              href: /events/badminton-pro/3-0
+            - text: Badminton PRO 2.0
+              href: /events/badminton-pro/2-0
+        - text: Prodigies
+          links:
+            - text: Prodigies 6.0
+              href: /events/prodigies/6-0
+            - text: Prodigies 5.0
+              href: /events/prodigies
+        - text: Iftar Mahfil
+          links:
+            - text: Iftar Mahfil 2025
+              href: /events/iftar-mahfil/2025
+            - text: Iftar Mahfil 2024
+              href: /events/iftar-mahfil/2024
+        - text: Mindlogue
+          links:
+            - text: Mindlogue 2.0
+              href: /events/mindlogue/2-0
+            - text: Mindlogue
+              href: /events/mindlogue
+        - text: BBQ Party 2024
+          href: /events/bbq-party-2024
+        - text: Cleanup Project
+          href: /events/cleanup-project
+        - text: Standing Beside Flood Victims
+          href: /events/standing-beside-flood-victims
+    - text: Portfolio
+      href: /portfolio
+    - text: Contact
+      href: /contact-us
+footer:
+  links:
+    - title: Quick Links
+      links:
+        - text: Home
+          href: /
+        - text: About Us
+          href: /about-us
+        - text: Portfolio
+          href: /portfolio
+        - text: Contact Us
+          href: /contact-us
+    - title: Wings
+      links:
+        - text: Art & Cultural Activities
+          href: /wings/art-cultural-activities
+        - text: Career & Corporate Affairs
+          href: /wings/career-corporate-affairs
+        - text: Events & Logistics
+          href: /wings/events-logistics
+        - text: Graphics & IT
+          href: /wings/graphics-it
+        - text: HR & Documentation
+          href: /wings/hr-documentation
+        - text: Photography
+          href: /wings/photography
+        - text: PR & Communication
+          href: /wings/pr-communication
+        - text: Promotion & Content Development
+          href: /wings/promotion-content-development
+        - text: Sports & Entertainment
+          href: /wings/sports-entertainment
+  secondaryLinks:
+    - text: Terms
+      href: /legal/terms
+    - text: Privacy Policy
+      href: /legal/privacy
+  footNote: University of Dhaka Accounting Forum · All rights reserved.

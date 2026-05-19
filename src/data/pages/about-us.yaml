@@ -1,0 +1,90 @@
+journey:
+  title: Our Journey
+  image:
+    src: ~/assets/images/about-us/Journey.jpeg
+    alt: Our Journey Image
+  content: |
+    We came across a realization that the modern corporate world is being dynamic at every moment. In order to cope up
+    with this change, we believe that along with a standard CGPA it is also equally necessary to have good
+    communication skills and up to date knowledge about the current business affairs while in turn secure a bright
+    career. We also believe that every student of Accounting & Information Systems does have some inherent qualities
+    and potentiality. Not only this we also feel that developing stronger ties with the corporate body is crucial to
+    strengthen our diversity and proudly represent the AIS individuals. Upon these facts, we feel motivated to take
+    the initiative to form this community, the only registered business and communication club of Faculty of Business
+    Studies (FBS), University of Dhaka.We maintain a strong network & interaction among the club members. We create a
+    corporate environment, formulate and practice behavior keeping pace with Corporate Code of Conduct (CCC). We build
+    sustainable relationships with business personnel and entities. UDAF bridges the gap between faculty members and
+    students of the department through organizing different events and seminars. We also feel the need of networking
+    and experience sharing among the members and alumni and incoming members as well. We aim to become the pioneer of
+    generating quality business leaders. Our activities include: workshops/seminars on case solving based
+    competitions, business plan & idea writing, resume writing and interview tips, effective presentation designing
+    techniques, intra university business plan competition, debate, quiz, case solving competition and sports. The
+    multi-talented and extraordinary UDAF individuals never fail to stamp their distinctive competence with tremendous
+    success and achievements in different spheres of the corporate world and that is what makes UDAF a good place to
+    acquire skills and practice how to organize and how to be organized.
+purpose:
+  title: Purpose & Direction
+  subtitle: The driving forces behind every initiative at UDAF.
+  items:
+    - title: Our Vision
+      description: 'Empowering future AIS individuals through knowledge exchange, networking and practical skill development.'
+      icon: 'tabler:eye'
+    - title: Our Mission
+      description: 'UDAF seeks to establish a cohesive and engaged community, amplifying the achievements and opportunities of its members while strengthening connections with the broader academic and professional ecosystem.'
+      icon: 'tabler:rocket'
+    - title: Our Goal
+      description: 'Bridging students & faculty through strategic communication, events, and collaborations, elevating UDAF''s visibility by promoting unity and growth within the Accounting Department.'
+      icon: 'tabler:target'
+objectives:
+  title: Our Objectives
+  subtitle: What we strive to achieve every day to build a better community.
+  items:
+    - title: Corporate Environment
+      description: To create a corporate environment in the club & formulate behavior keeping pace with the Corporate Code of Conduct (CCC).
+      icon: 'tabler:building-skyscraper'
+    - title: Corporate Network
+      description: 'To network with organizations that have business interests in Bangladesh, enhancing members'' understanding of business issues.'
+      icon: 'tabler:network'
+    - title: Alumni Support
+      description: To maintain an ongoing support network for members and alumni of A&IS to share experiences with incoming members.
+      icon: 'tabler:users-group'
+    - title: Student-Faculty Bridge
+      description: To bridge the gap between the students & the teachers of the department through organizing events or seminars.
+      icon: 'tabler:building-bridge'
+    - title: Member Interaction
+      description: To ensure a strong network & interaction among the members of the club.
+      icon: 'tabler:messages'
+    - title: Sustainable Networks
+      description: To build a wide & sustainable network with business persons and entities.
+      icon: 'tabler:leaf'
+    - title: Corporate Representation
+      description: To represent our department to the corporate world with excellence & perfection.
+      icon: 'tabler:briefcase'
+    - title: Pioneering Leaders
+      description: To be the pioneer in the area of creating quality business leaders.
+      icon: 'tabler:award'
+metadata:
+  title: About Us
+hero:
+  subtitle: 'The only registered business and communication club of the Faculty of Business Studies (FBS), University of Dhaka.'
+facultyMessages:
+  title: Faculty Messages
+  messages:
+    - name: Dr. Maksudur Rahman Sarker
+      role: Chairman
+      department: Department Of Accounting
+      image: /images/Maksudur-Rahman-Sir.jpeg
+      message: |
+        It is a great pleasure and honor for me to address University of Dhaka Accounting Forum (UDAF), a group of bright minds working toward the betterment of the students of this department. To me, UDAF is like an extra pair of hands for the department. Since its formation, UDAF has played a very courageous role in managing the departmental programs, events, and arrangements. As the chairman of this esteemed department, I am greatly honored to have UDAF at the forefront of excellence and ingenuity. 
+        UDAF plays a significant role in shaping the students of our department for a competitive future. It has organized many events, like business case competitions, speaking competitions, and numerous insightful sessions, which have contributed to ensuring a bright future for the students. 
+        UDAF also proudly bears the responsibility to arrange all departmental programs like Fresher's Reception, Iftar Mahfil, Accounting Day, Accounting Week, sports tournaments, and so on. The noteworthy programs like 'UDAF SAYS HI', 'Mindlogue', 'Prodigies', 'Badminton PRO' etc. do not only contribute to shaping the co-curricular activities of this department but also to building the image of our beloved department in a broader context. 
+        To our current students, I encourage you to take full advantage of the resources and opportunities available to you at UDAF. UDAF is the melting melody of the creams of FBS. The meritorious faces of the department combine their talents and ideas here to do something new. Besides, it is a bridge between the current students, teachers, and alumni. I, as the Chairman of the Department of Accounting and Information Systems, wish a very bright future for UDAF. My strong appeal would be that UDAF shall maintain and nourish the social competitive environment and not try to gain personal benefit at social cost. Your journey here will shape your future. We are here to support and guide you every step of the way. Together, let us continue to strive for excellence. 
+    - name: Amirus Salat
+      role: Professor
+      department: Department of Accounting
+      image: /images/Salat-Sir-768x768.jpeg
+      message: |-
+        I firmly believe that a good club can have a significant impact on a student's life. The University of Dhaka Accounting Forum (UDAF) has played a great role in making me believe it. UDAF was formed in 2013 and officially registered in 2016 with the goal of providing the students of the Department of Accounting and Information Systems with the opportunity to expand their network inside the department and make them eligible for their professional lives by giving them crucial career insights and developing their skills. 
+        Since its inception, UDAF has been working for the welfare of the department as well as for the students. It has organized multiple events, sessions, and seminars on various topics that have enhanced the knowledge and expertise of the students. These play a huge role in their career growth and allow them to flourish in their desired job fields. 
+        UDAF is led by the brilliant and intelligent students of the Department of Accounting and Information Systems. The eight distinct wings comprehended by the club provide space for the executives to showcase and polish their creativity and managerial skills. 
+        It is my utmost pleasure to be the moderator of a club like UDAF. I wish it the very best for its future, and I hope that it will always strive to lend its hand to the students as well as the department whenever it is necessary. 

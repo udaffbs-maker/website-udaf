@@ -1,187 +1,27 @@
 ---
+import fs from 'node:fs';
+import yaml from 'js-yaml';
 import Layout from '~/layouts/PageLayout.astro';
 import TeamGrid from '~/components/widgets/TeamGrid.astro';
 
+const data = yaml.load(fs.readFileSync('./src/data/committees/committee-23-24.yaml', 'utf8')) as any;
+const { title, presidentialPanel, vicePresidents } = data;
+
 const metadata = {
-  title: 'Committee 23-24',
+  title: title,
 };
-
-const presidentialPanel = [
-  {
-    name: 'Debopriyo Bhattacharjee Dipu',
-    role: 'President',
-    image: '/images/committees/committee-23-24/Debopriyo-Bhattacharjee-Dipu-1024x1024.jpg',
-    facebook: 'https://www.facebook.com/debopriyo.dipu.7?mibextid=ZbWKwL',
-    email: 'debopriyobhattacharjee139@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/debopriyo-bhattacharjee-15a136147',
-  },
-  {
-    name: 'Mustarikul Islam Raju',
-    role: 'General Secretary',
-    image: '/images/committees/committee-23-24/Md.-Mustarikul-Islam-01-1024x1024.png',
-    facebook: 'https://www.facebook.com/mustarikul?mibextid=ZbWKwL',
-    email: 'mustarikulislam@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/mustarikul',
-  },
-  {
-    name: 'Yousra Sultana',
-    role: 'Treasurer',
-    image: '/images/committees/committee-23-24/Yousra-Sultana-1024x1024.jpg',
-    facebook: 'https://www.facebook.com/profile.php?id=100007190327269&mibextid=ZbWKwL',
-    email: 'yousras26a.26@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/yousra-sultana',
-  },
-];
-
-const vicePresidents = [
-  {
-    name: 'Mahmudul Hasan Rafi',
-    role: 'VP of HR & Documentation',
-    image: '/images/committees/committee-23-24/Mahmudul-Hasan-Rafi.png',
-    facebook: 'https://www.facebook.com/itsmhrafi?mibextid=ZbWKwL',
-    email: 'ahmedrafin00@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/mahmudul-hasan-rafi-68731a23b',
-  },
-  {
-    name: 'Asif Al Mamun',
-    role: 'VP of HR & Documentation',
-    image: '/images/committees/committee-23-24/Asif-Al-mamun.png',
-    facebook: 'https://www.facebook.com/asif.shovon.96?mibextid=ZbWKwL',
-    email: 'shovon.asif@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/asif-al-mamun-5a73a61bb',
-  },
-  {
-    name: 'Asma Humayra Nousin',
-    role: 'VP of Graphics & IT',
-    image: '/images/committees/committee-23-24/Noushin.png',
-    facebook: 'https://www.facebook.com/nou.shin.963?mibextid=ZbWKwL',
-    email: 'nshin9025@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/asma-humayra-nousin-3a2a48301',
-  },
-  {
-    name: 'Abir Khandoker',
-    role: 'VP of Promotion & Content Dev',
-    image: '/images/committees/committee-23-24/Abir-Khandokar.png',
-    facebook: 'https://www.facebook.com/profile.php?id=100004550564708&mibextid=ZbWKwL',
-    email: '99abir@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/abir-khandoker-a2b398202',
-  },
-  {
-    name: 'Fatema Tuz Zohra',
-    role: 'VP of Promotion & Content Dev',
-    image: '/images/committees/committee-23-24/Fatema-tuz-zohora.png',
-    facebook: 'https://www.facebook.com/fatema.johra.336?mibextid=ZbWKwL',
-    email: 'ftjdu2019@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/fatema-tuz-johra-29999a221',
-  },
-  {
-    name: 'Farhan Saife',
-    role: 'VP of Promotion & Content Dev',
-    image: '/images/committees/committee-23-24/Farha-Saife.png',
-    facebook: 'https://www.facebook.com/farhan.saife.90?mibextid=ZbWKwL',
-    email: 'farhansaife26b118@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/farhan-saife-7100b6188',
-  },
-  {
-    name: 'Habiba Islam Jaime',
-    role: 'VP of Promotion & Content Dev',
-    image: '/images/committees/committee-23-24/Habiba-Jaime.png',
-    facebook: 'https://www.facebook.com/habibaislam.jaime?mibextid=ZbWKwL',
-    email: 'habibaislam26b99@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/habiba-islam-88345220a',
-  },
-  {
-    name: 'Rakib Hossain',
-    role: 'VP of Career & Corporate Affairs',
-    image: '/images/committees/committee-23-24/Rakib-Hossain.png',
-    facebook: 'https://www.facebook.com/rakib.sowad?mibextid=ZbWKwL',
-    email: 'rakibsowad707@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/rakib-hossain-405a551a4',
-  },
-  {
-    name: 'Isra Karim',
-    role: 'VP of Career & Corporate Affairs',
-    image: '/images/committees/committee-23-24/Isra-Karim.png',
-    facebook: 'https://www.facebook.com/israkarim25?mibextid=JRoKGi',
-    email: 'israkarim.ik@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/isra-karim-b47311256',
-  },
-  {
-    name: 'Zinat Hassan Badhon',
-    role: 'VP of PR & Communication',
-    image: '/images/committees/committee-23-24/Zinat-Badhon.png',
-    facebook: 'https://www.facebook.com/zinat.hasan.9?mibextid=ZbWKwL',
-    email: 'badhon.zinat@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/zinat-hassan-5632871b8',
-  },
-  {
-    name: 'Abrar Ali Khan',
-    role: 'VP of Events & Logistics',
-    image: '/images/committees/committee-23-24/Abrar-Ali-Khan.png',
-    facebook: 'https://www.facebook.com/aakadib?mibextid=ZbWKwL',
-    email: 'aakadib@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/abrar-ali-khan-55abab1ba',
-  },
-  {
-    name: 'Maisarat Binte Alam',
-    role: 'VP of Events & Logistics',
-    image: '/images/committees/committee-23-24/Maisarat-Binte-Alam.png',
-    facebook: 'https://www.facebook.com/maisarat.monisa?mibextid=ZbWKwL',
-    email: 'maisaratmonisha26@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/maisarat-binte-alam-4288181b3',
-  },
-  {
-    name: 'Nusaiba Nazahat',
-    role: 'VP of Events & Logistics',
-    image: '/images/committees/committee-23-24/Nusaiba-Nazahat.png',
-    facebook: 'https://www.facebook.com/nusaiba.nazahat.5?mibextid=ZbWKwL',
-    email: 'nazahat3247@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/nusaiba-nazahat-875654293',
-  },
-  {
-    name: 'Ayshee Rebeiro',
-    role: 'VP of Art & Cultural Activities',
-    image: '/images/committees/committee-23-24/Ayshee-Reberio.png',
-    facebook: 'https://www.facebook.com/ayshee.rebeiro.5?mibextid=ZbWKwL',
-    email: 'aysheerebeiro2001@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/verginea-ayshee-rebeiro',
-  },
-  {
-    name: 'Benjamin Tripura',
-    role: 'VP of Art & Cultural Activities',
-    image: '/images/committees/committee-23-24/Benjamin-Tripura.png',
-    facebook: 'https://www.facebook.com/benjithegenji?mibextid=ZbWKwL',
-    email: 'benjaminemmanuel30@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/benjamin-tripura-70b2a3301',
-  },
-  {
-    name: 'Fahim Faysal Anan',
-    role: 'VP of Sports & Entertainment',
-    image: '/images/committees/committee-23-24/Fahim-Faysal-Anan.png',
-    facebook: 'https://www.facebook.com/Anon.4455?mibextid=ZbWKwL',
-    email: 'fahimfaysalanon1999@gmail.com',
-  },
-  {
-    name: 'Jawad Sadik Khan',
-    role: 'VP of Sports & Entertainment',
-    image: '/images/committees/committee-23-24/Jawad-Sadik-Khan.png',
-    facebook: 'https://www.facebook.com/jawad.sadik.khan.1?mibextid=ZbWKwL',
-    email: 'jawadd810@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/jawad-sadik-khan-330327188',
-  },
-];
 ---
 
 <Layout metadata={metadata}>
   <section class="relative py-12 md:py-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
       <div class="text-center">
-        <p class="text-sm font-semibold uppercase tracking-widest text-primary mb-3">Meet Our Team</p>
-        <h1 class="font-heading font-bold text-4xl md:text-5xl lg:text-6xl text-gray-900 dark:text-white mb-4">
+        <p class="text-sm font-semibold uppercase tracking-widest text-primary mb-3 intersect-once motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade-down">Meet Our Team</p>
+        <h1 class="font-heading font-bold text-4xl md:text-5xl lg:text-6xl text-gray-900 dark:text-white mb-4 intersect-once motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade-up">
           Executive Committee
           <span class="block text-primary">2023-24</span>
         </h1>
-        <div class="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
+        <div class="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full intersect-once motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade-up"></div>
       </div>
     </div>
 
