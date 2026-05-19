@@ -10,11 +10,11 @@
   "scripts": {
     "dev": "tinacms dev -c \"astro dev\"",
     "start": "tinacms dev -c \"astro dev\"",
-    "build": "tinacms build && astro build",
+    "build": "tinacms build --skip-indexing && astro build",
     "preview": "astro preview",
     "astro": "astro",
     "tina:dev": "tinacms dev",
-    "tina:build": "tinacms build",
+    "tina:build": "tinacms build --skip-indexing",
     "check": "npm run check:astro && npm run check:eslint && npm run check:prettier",
     "check:astro": "astro check",
     "check:eslint": "eslint .",
