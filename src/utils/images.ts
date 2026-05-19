@@ -42,7 +42,7 @@ export const findImage = async (
   // If it's in public/images, we should return it as an absolute path for the browser
   // unless we want Astro to optimize it, in which case we'd need it in src/assets
   if (imagePath.startsWith('/images/')) {
-    return imagePath;
+    return (import.meta.env.BASE_URL + imagePath).replace(/\/+/g, '/');
   }
 
   // Normalize to /src/assets/ if using ~/assets/
@@ -52,7 +52,7 @@ export const findImage = async (
 
   // Absolute paths in public
   if (imagePath.startsWith('/') && !imagePath.startsWith('/src/assets/images')) {
-    return imagePath;
+    return (import.meta.env.BASE_URL + imagePath).replace(/\/+/g, '/');
   }
 
   // Relative paths or not "/src/assets/images"
