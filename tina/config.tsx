@@ -17,8 +17,8 @@ export default defineConfig({
     publicFolder: "public",
     basePath: "website-udaf",
   },
-  // Enable local mode
-  contentApiUrlOverride: process.env.NODE_ENV === 'development' ? 'http://localhost:4001/graphql' : undefined,
+  // Enable local mode only in development (tinacms dev command)
+  contentApiUrlOverride: process.env.TINA_MODE === 'local' ? 'http://localhost:4001/graphql' : undefined,
   media: {
     tina: {
       mediaRoot: "images",
