@@ -1,20 +1,17 @@
 import { defineConfig } from "tinacms";
 
-// Your hosting provider likely exposes this as an environment variable
-const branch =
-  process.env.GITHUB_BRANCH ||
-  process.env.GITHUB_REF_NAME ||
-  process.env.VERCEL_GIT_COMMIT_REF ||
-  process.env.HEAD ||
-  "main";
-
 export default defineConfig({
-  branch,
+  branch:
+    process.env.GITHUB_BRANCH ||
+    process.env.GITHUB_REF_NAME ||
+    process.env.VERCEL_GIT_COMMIT_REF ||
+    process.env.HEAD ||
+    "master",
 
   // Get this from tina.io
-  clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID || "placeholder",
+  clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID || "ce10f434-32db-4a2f-8c84-9e441d942ee3",
   // Get this from tina.io
-  token: process.env.TINA_TOKEN || "placeholder",
+  token: process.env.TINA_TOKEN || "fe1b7018afc4b68e43e74545eff1035fcd6b9aaa",
 
   build: {
     outputFolder: "admin",
@@ -173,7 +170,7 @@ export default defineConfig({
         path: "src/data/pages",
         format: "yaml",
         match: {
-            include: "**/*",
+          include: "*.yaml",
         },
         fields: [
           {
@@ -352,7 +349,7 @@ export default defineConfig({
         path: "src/data/post",
         format: "md",
         match: {
-          include: "**/*",
+          include: "*.md",
         },
         fields: [
           {
@@ -437,7 +434,7 @@ export default defineConfig({
         path: "src/data/wings",
         format: "md",
         match: {
-            include: "**/*",
+          include: "*.md",
         },
         fields: [
           {
@@ -473,7 +470,7 @@ export default defineConfig({
         path: "src/data/events",
         format: "mdx",
         match: {
-          include: "**/*",
+          include: "**/*.mdx",
         },
         fields: [
           {
@@ -681,7 +678,7 @@ export default defineConfig({
         path: "src/data/committees",
         format: "yaml",
         match: {
-            include: "**/*",
+          include: "*.yaml",
         },
         fields: [
           {
@@ -733,7 +730,7 @@ export default defineConfig({
         path: "src/data/legal",
         format: "md",
         match: {
-            include: "**/*",
+          include: "*.md",
         },
         fields: [
           {
@@ -769,7 +766,7 @@ export default defineConfig({
         path: "src/data/portfolio",
         format: "yaml",
         match: {
-          include: "**/*",
+          include: "*.yaml",
         },
         fields: [
           {
