@@ -241,7 +241,7 @@ export default defineConfig({
                 name: "messages",
                 label: "Teacher Messages",
                 ui: {
-                  itemProps: (item) => ({ label: item?.name }),
+                  itemProps: (item) => ({ label: item?.name || "Teacher Message" }),
                 },
                 fields: [
                   { type: "string", name: "name", label: "Teacher Name" },
@@ -698,6 +698,9 @@ export default defineConfig({
             list: true,
             name: "presidentialPanel",
             label: "Presidential Panel",
+            ui: {
+              itemProps: (item) => ({ label: item?.name || "Panel Member" }),
+            },
             fields: [
               { type: "string", name: "name", label: "Name" },
               { type: "string", name: "role", label: "Role" },
@@ -712,6 +715,9 @@ export default defineConfig({
             list: true,
             name: "vicePresidents",
             label: "Vice Presidents",
+            ui: {
+              itemProps: (item) => ({ label: item?.name || "Vice President" }),
+            },
             fields: [
               { type: "string", name: "name", label: "Name" },
               { type: "string", name: "role", label: "Role" },
