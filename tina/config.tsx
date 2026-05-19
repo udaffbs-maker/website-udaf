@@ -5,7 +5,6 @@ export default defineConfig({
     process.env.GITHUB_BRANCH ||
     process.env.GITHUB_REF_NAME ||
     process.env.VERCEL_GIT_COMMIT_REF ||
-    process.env.HEAD ||
     "master",
 
   // Get this from tina.io
