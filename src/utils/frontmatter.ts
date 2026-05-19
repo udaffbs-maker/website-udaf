@@ -1,5 +1,6 @@
 import getReadingTime from 'reading-time';
 import { toString } from 'mdast-util-to-string';
+import { visit } from 'unist-util-visit';
 import type { RehypePlugin, RemarkPlugin } from '@astrojs/markdown-remark';
 
 export const readingTimeRemarkPlugin: RemarkPlugin = () => {
@@ -33,5 +34,16 @@ export const responsiveTablesRehypePlugin: RehypePlugin = () => {
         i++;
       }
     }
+  };
+};
+
+export const imagePathFixerRehypePlugin: RehypePlugin = () => {
+  return function (tree) {
+    visit(tree, 'element', (node: any) => {
+      if (node.tagName === 'img' && node.properties?.src?.startsWith('/') && !node.properties.src.startsWith('http')) {
+        const baseUrl = '/website-udaf';
+        node.properties.src = (baseUrl + node.properties.src).replace(/\/+/g, '/');
+      }
+    });
   };
 };

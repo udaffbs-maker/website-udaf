@@ -14,9 +14,15 @@ export interface Props {
 const { images: rawImages, image1, image2, image3, image4, image5, image6 } = Astro.props;
 
 // Support both: array prop (Astro direct) or individual props (TinaCMS)
-const images = rawImages && rawImages.length > 0
+const images = (rawImages && rawImages.length > 0
   ? rawImages
-  : [image1, image2, image3, image4, image5, image6].filter(Boolean) as string[];
+  : [image1, image2, image3, image4, image5, image6].filter(Boolean) as string[]
+).map(img => {
+  if (img.startsWith('/') && !img.startsWith('http')) {
+    return (import.meta.env.BASE_URL + img).replace(/\/+/g, '/');
+  }
+  return img;
+});
 ---
 
 {

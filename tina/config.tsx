@@ -19,6 +19,7 @@ export default defineConfig({
   build: {
     outputFolder: "admin",
     publicFolder: "public",
+    basePath: "website-udaf",
   },
   // Enable local mode
   contentApiUrlOverride: process.env.NODE_ENV === 'development' ? 'http://localhost:4001/graphql' : undefined,
