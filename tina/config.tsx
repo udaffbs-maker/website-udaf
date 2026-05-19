@@ -169,7 +169,7 @@ export default defineConfig({
         path: "src/data/pages",
         format: "yaml",
         match: {
-          include: "*.yaml",
+          include: "*",
         },
         fields: [
           {
@@ -348,7 +348,7 @@ export default defineConfig({
         path: "src/data/post",
         format: "md",
         match: {
-          include: "*.md",
+          include: "*",
         },
         fields: [
           {
@@ -433,7 +433,7 @@ export default defineConfig({
         path: "src/data/wings",
         format: "md",
         match: {
-          include: "*.md",
+          include: "*",
         },
         fields: [
           {
@@ -469,7 +469,7 @@ export default defineConfig({
         path: "src/data/events",
         format: "mdx",
         match: {
-          include: "**/*.mdx",
+          include: "**/*",
         },
         fields: [
           {
@@ -677,7 +677,7 @@ export default defineConfig({
         path: "src/data/committees",
         format: "yaml",
         match: {
-          include: "*.yaml",
+          include: "*",
         },
         fields: [
           {
@@ -735,7 +735,7 @@ export default defineConfig({
         path: "src/data/legal",
         format: "md",
         match: {
-          include: "*.md",
+          include: "*",
         },
         fields: [
           {
@@ -771,7 +771,7 @@ export default defineConfig({
         path: "src/data/portfolio",
         format: "yaml",
         match: {
-          include: "*.yaml",
+          include: "*",
         },
         fields: [
           {
