@@ -1,6 +1,8 @@
 # build output
 dist/
 .output/
+public/admin/
+tina/__generated__/
 
 # dependencies
 node_modules/
