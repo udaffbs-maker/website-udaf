@@ -41,7 +41,7 @@ export const imagePathFixerRehypePlugin: RehypePlugin = () => {
   return function (tree) {
     visit(tree, 'element', (node: any) => {
       if (node.tagName === 'img' && node.properties?.src?.startsWith('/') && !node.properties.src.startsWith('http')) {
-        const baseUrl = '/website-udaf';
+        const baseUrl = '';
         node.properties.src = (baseUrl + node.properties.src).replace(/\/+/g, '/');
       }
     });
