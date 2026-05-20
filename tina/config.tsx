@@ -15,7 +15,7 @@ export default defineConfig({
   build: {
     outputFolder: "admin",
     publicFolder: "public",
-    basePath: "website-udaf",
+    basePath: "/",
   },
   // Enable local mode only in development (tinacms dev command)
   contentApiUrlOverride: process.env.TINA_MODE === 'local' ? 'http://localhost:4001/graphql' : undefined,
