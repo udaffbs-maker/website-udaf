@@ -36,12 +36,15 @@ const { language, textDirection } = I18N;
     <ApplyColorMode />
     <script is:inline>
       try {
-        const loaded = localStorage.getItem('udaf-loaded');
-        if (loaded) {
-          const now = Date.now();
-          const expiration = 24 * 60 * 60 * 1000; // 24 hours
-          if (now - parseInt(loaded) < expiration) {
-            document.documentElement.classList.add('udaf-preloaded');
+        const isMobile = window.innerWidth < 768;
+        if (!isMobile) {
+          const loaded = localStorage.getItem('udaf-loaded');
+          if (loaded) {
+            const now = Date.now();
+            const expiration = 24 * 60 * 60 * 1000; // 24 hours
+            if (now - parseInt(loaded) < expiration) {
+              document.documentElement.classList.add('udaf-preloaded');
+            }
           }
         }
       } catch (e) {}

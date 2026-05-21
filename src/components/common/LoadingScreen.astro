@@ -23,10 +23,10 @@ import Image from '~/components/common/Image.astro';
   <div class="relative z-10 flex flex-col items-center justify-center scale-95 md:scale-100 transition-transform duration-500">
     
     <!-- Unified Circular Logo & Spinner -->
-    <div class="relative w-36 h-36 md:w-44 md:h-44 flex items-center justify-center mb-6">
+    <div class="relative w-36 h-36 md:w-44 md:h-44 aspect-square flex items-center justify-center mb-6">
       
       <!-- SVG Loader Ring (Circles once to complete) -->
-      <svg class="absolute inset-0 w-full h-full animate-rotate-slow text-[var(--aw-color-primary)]" viewBox="0 0 100 100">
+      <svg class="absolute inset-0 w-full h-full animate-rotate-slow text-[var(--aw-color-primary)] overflow-visible" viewBox="0 0 100 100">
         <!-- Faint background track -->
         <circle 
           class="text-slate-100 dark:text-slate-900/60" 
@@ -54,11 +54,11 @@ import Image from '~/components/common/Image.astro';
 
       <!-- Outer Pulsing Glow behind circular frame -->
       <div 
-        class="absolute w-[80%] h-[80%] rounded-full bg-gradient-to-tr from-[var(--aw-color-primary)] to-blue-600 opacity-10 dark:opacity-15 blur-xl transition-all duration-1000 animate-pulse-slow"
+        class="absolute w-[80%] h-[80%] aspect-square rounded-full bg-gradient-to-tr from-[var(--aw-color-primary)] to-blue-600 opacity-10 dark:opacity-15 blur-xl transition-all duration-1000 animate-pulse-slow"
       ></div>
 
       <!-- Inner Glassmorphic Circular Logo Frame -->
-      <div class="absolute w-[82%] h-[82%] flex items-center justify-center rounded-full bg-white/40 dark:bg-white/[0.01] border border-slate-100/60 dark:border-white/[0.05] shadow-[0_4px_20px_rgb(0,0,0,0.03)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] backdrop-blur-sm overflow-hidden animate-logo-breath">
+      <div class="absolute w-[82%] h-[82%] aspect-square flex items-center justify-center rounded-full bg-white/40 dark:bg-white/[0.01] border border-slate-100/60 dark:border-white/[0.05] shadow-[0_4px_20px_rgb(0,0,0,0.03)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] backdrop-blur-sm overflow-hidden animate-logo-breath">
         <Image 
           src={logoImg} 
           alt="UDAF Loading Logo" 
@@ -202,10 +202,14 @@ import Image from '~/components/common/Image.astro';
     // 1. Check Local Storage
     let isPreloaded = false;
     try {
-      const loaded = localStorage.getItem('udaf-loaded');
-      if (loaded) {
-        if (startTime - parseInt(loaded) < EXPIRATION) {
-          isPreloaded = true;
+      const isMobile = window.innerWidth < 768;
+      // On mobile, we always show the loader (skip the preload check)
+      if (!isMobile) {
+        const loaded = localStorage.getItem('udaf-loaded');
+        if (loaded) {
+          if (startTime - parseInt(loaded) < EXPIRATION) {
+            isPreloaded = true;
+          }
         }
       }
     } catch (e) {}
