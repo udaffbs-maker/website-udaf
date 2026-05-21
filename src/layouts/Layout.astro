@@ -17,6 +17,8 @@ import { ClientRouter } from 'astro:transitions';
 
 import type { MetaData as MetaDataType } from '~/types';
 
+import LoadingScreen from '~/components/common/LoadingScreen.astro';
+
 export interface Props {
   metadata?: MetaDataType;
 }
@@ -32,6 +34,18 @@ const { language, textDirection } = I18N;
     <Favicons />
     <CustomStyles />
     <ApplyColorMode />
+    <script is:inline>
+      try {
+        const loaded = localStorage.getItem('udaf-loaded');
+        if (loaded) {
+          const now = Date.now();
+          const expiration = 24 * 60 * 60 * 1000; // 24 hours
+          if (now - parseInt(loaded) < expiration) {
+            document.documentElement.classList.add('udaf-preloaded');
+          }
+        }
+      } catch (e) {}
+    </script>
     <Metadata {...metadata} />
     <SiteVerification />
     <Analytics />
@@ -43,6 +57,7 @@ const { language, textDirection } = I18N;
   </head>
 
   <body class="antialiased text-default bg-page tracking-tight">
+    <LoadingScreen />
     <slot />
 
     <BasicScripts />

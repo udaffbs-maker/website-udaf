@@ -1,0 +1,272 @@
+---
+import logoImg from '~/assets/images/udaf-logo.png';
+import Image from '~/components/common/Image.astro';
+---
+
+<!-- Loading Screen Overlay -->
+<div
+  id="udaf-loading-screen"
+  transition:persist="udaf-loader"
+  class="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-white dark:bg-slate-950 transition-all duration-500 ease-in-out select-none"
+>
+  <!-- Dot Grid Pattern overlay (Shadcn style) -->
+  <div 
+    class="absolute inset-0 pointer-events-none opacity-20 dark:opacity-10 bg-[radial-gradient(#3d7dc1_1.5px,transparent_1.5px)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_60%,transparent_100%)]"
+  ></div>
+
+  <!-- Radial gradient overlay for smooth depth -->
+  <div 
+    class="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_20%,rgba(255,255,255,0.7)_80%)] dark:bg-[radial-gradient(circle_at_center,transparent_20%,rgba(15,23,42,0.85)_90%)]"
+  ></div>
+
+  <!-- Content Container -->
+  <div class="relative z-10 flex flex-col items-center justify-center scale-95 md:scale-100 transition-transform duration-500">
+    
+    <!-- Unified Circular Logo & Spinner -->
+    <div class="relative w-36 h-36 md:w-44 md:h-44 flex items-center justify-center mb-6">
+      
+      <!-- SVG Loader Ring (Circles once to complete) -->
+      <svg class="absolute inset-0 w-full h-full animate-rotate-slow text-[var(--aw-color-primary)]" viewBox="0 0 100 100">
+        <!-- Faint background track -->
+        <circle 
+          class="text-slate-100 dark:text-slate-900/60" 
+          stroke-width="3" 
+          stroke="currentColor" 
+          fill="transparent" 
+          r="45" 
+          cx="50" 
+          cy="50"
+        />
+        <!-- Active loading segment (animates from empty to full circle once) -->
+        <circle 
+          id="udaf-spinner-circle"
+          class="text-[var(--aw-color-primary)] stroke-current animate-draw-circle" 
+          stroke-width="3" 
+          stroke-dasharray="283" 
+          stroke-dashoffset="283" 
+          stroke-linecap="round" 
+          fill="transparent" 
+          r="45" 
+          cx="50" 
+          cy="50"
+        />
+      </svg>
+
+      <!-- Outer Pulsing Glow behind circular frame -->
+      <div 
+        class="absolute w-[80%] h-[80%] rounded-full bg-gradient-to-tr from-[var(--aw-color-primary)] to-blue-600 opacity-10 dark:opacity-15 blur-xl transition-all duration-1000 animate-pulse-slow"
+      ></div>
+
+      <!-- Inner Glassmorphic Circular Logo Frame -->
+      <div class="absolute w-[82%] h-[82%] flex items-center justify-center rounded-full bg-white/40 dark:bg-white/[0.01] border border-slate-100/60 dark:border-white/[0.05] shadow-[0_4px_20px_rgb(0,0,0,0.03)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] backdrop-blur-sm overflow-hidden animate-logo-breath">
+        <Image 
+          src={logoImg} 
+          alt="UDAF Loading Logo" 
+          width={120} 
+          height={120} 
+          loading="eager"
+          class="w-[72%] h-[72%] object-contain rounded-full bg-white p-1 filter drop-shadow-[0_3px_8px_rgba(61,125,193,0.12)] dark:drop-shadow-[0_4px_15px_rgba(81,145,213,0.25)]"
+        />
+      </div>
+    </div>
+
+    <!-- Title and Subtitle -->
+    <div class="text-center space-y-1 animate-fade-in-delayed">
+      <h2 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50 font-heading">
+        UDAF
+      </h2>
+      <p class="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--aw-color-primary)] dark:text-[var(--aw-color-primary)]">
+        Empowering Change
+      </p>
+    </div>
+  </div>
+</div>
+
+<style is:inline>
+  /* Preloaded State: Hide screen instantly if session storage says we are already loaded */
+  html.udaf-preloaded #udaf-loading-screen,
+  #udaf-loading-screen.loader-hidden {
+    display: none !important;
+  }
+
+  /* CSS Fail-Safe: Guarantees the loader vanishes after 1.5s even if JS crashes */
+  #udaf-loading-screen:not(.loader-hidden) {
+    animation: force-hide-loader 0.5s ease-in 1.5s forwards;
+  }
+
+  @keyframes force-hide-loader {
+    to {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+  }
+
+  /* Custom Animations */
+  @keyframes logo-breath {
+    0%, 100% {
+      transform: scale(0.98);
+    }
+    50% {
+      transform: scale(1.01);
+    }
+  }
+
+  @keyframes pulse-slow-light {
+    0%, 100% {
+      opacity: 0.12;
+      transform: scale(0.95);
+      filter: blur(20px);
+    }
+    50% {
+      opacity: 0.22;
+      transform: scale(1.05);
+      filter: blur(28px);
+    }
+  }
+
+  @keyframes pulse-slow-dark {
+    0%, 100% {
+      opacity: 0.15;
+      transform: scale(0.95);
+      filter: blur(24px);
+    }
+    50% {
+      opacity: 0.35;
+      transform: scale(1.08);
+      filter: blur(32px);
+    }
+  }
+
+  @keyframes draw-circle {
+    0% {
+      stroke-dashoffset: 283;
+    }
+    100% {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes rotate-slow {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes fade-in-delayed {
+    0% {
+      opacity: 0;
+      transform: translateY(3px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Utility classes mapped inline to ensure immediate activation before stylesheet downloads */
+  .animate-logo-breath {
+    animation: logo-breath 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+  .animate-pulse-slow {
+    animation: pulse-slow-light 8s ease-in-out infinite;
+  }
+  .dark .animate-pulse-slow {
+    animation: pulse-slow-dark 8s ease-in-out infinite;
+  }
+  .animate-draw-circle {
+    animation: draw-circle 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+  .animate-rotate-slow {
+    transform-origin: center;
+    animation: rotate-slow 12s linear infinite;
+  }
+  .animate-fade-in-delayed {
+    animation: fade-in-delayed 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    const loader = document.getElementById('udaf-loading-screen');
+    if (!loader) return;
+
+    const startTime = Date.now();
+    const MIN_DISPLAY_TIME = 800; // Minimum time to show the loader to avoid flickering
+    const MAX_LOAD_TIME = 2000;   // Maximum time before we force hide it
+    const EXPIRATION = 24 * 60 * 60 * 1000; // 24 hours
+
+    // 1. Check Local Storage
+    let isPreloaded = false;
+    try {
+      const loaded = localStorage.getItem('udaf-loaded');
+      if (loaded) {
+        if (startTime - parseInt(loaded) < EXPIRATION) {
+          isPreloaded = true;
+        }
+      }
+    } catch (e) {}
+
+    // If already hidden via transition:persist, CSS class, or storage, abort early
+    if (isPreloaded || loader.classList.contains('loader-hidden')) {
+      document.documentElement.classList.add('udaf-preloaded');
+      loader.classList.add('loader-hidden');
+      return;
+    }
+
+    let isDismissed = false;
+
+    function dismissLoader() {
+      if (isDismissed) return;
+      
+      const currentTime = Date.now();
+      const elapsed = currentTime - startTime;
+      
+      // If the page loaded super fast, we still wait a tiny bit to make the animation feel intentional
+      // but if it took a while, we dismiss it immediately.
+      const delay = Math.max(0, MIN_DISPLAY_TIME - elapsed);
+
+      setTimeout(() => {
+        isDismissed = true;
+        
+        // Mark as preloaded
+        document.documentElement.classList.add('udaf-preloaded');
+
+        // Smooth exit transitions
+        loader.classList.add('opacity-0', 'scale-[1.02]', 'pointer-events-none');
+        loader.style.opacity = '0';
+        loader.style.pointerEvents = 'none';
+        loader.style.transform = 'scale(1.02)';
+        
+        setTimeout(() => {
+          loader.classList.add('loader-hidden');
+          loader.style.display = 'none';
+        }, 500);
+
+        // Record load in local storage
+        try {
+          localStorage.setItem('udaf-loaded', Date.now().toString());
+        } catch (e) {}
+      }, delay);
+    }
+
+    // 2. Listen for Page Load
+    if (document.readyState === 'complete') {
+      dismissLoader();
+    } else {
+      window.addEventListener('load', dismissLoader);
+      // Fallback for DOMContentLoaded if load event is too slow
+      document.addEventListener('DOMContentLoaded', () => {
+        // If DOM is ready but images take too long, we still want to dismiss eventually
+        // but let's prioritize 'load' for the "no images" requirement.
+        setTimeout(dismissLoader, 1500);
+      });
+    }
+
+    // 3. Absolute ceiling
+    setTimeout(dismissLoader, MAX_LOAD_TIME);
+  })();
+</script>

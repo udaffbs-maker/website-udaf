@@ -67,6 +67,7 @@ import { UI } from 'astrowind:config';
     attachEvent('[data-aw-toggle-dropdown]', 'click', function (e, elem) {
       if (window.innerWidth < 768) {
         e.preventDefault();
+        e.stopPropagation();
         const menu = elem.nextElementSibling;
         menu?.classList.toggle('hidden');
       }
