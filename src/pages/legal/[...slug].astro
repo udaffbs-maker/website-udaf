@@ -7,10 +7,18 @@ import Video from '~/components/ui/Video.astro';
 
 export async function getStaticPaths() {
   const legalDocs = await getCollection('legal');
-  return legalDocs.map((doc) => ({
-    params: { slug: doc.data.slug || doc.id },
-    props: { doc },
-  }));
+  return legalDocs.map((doc) => {
+    // Use explicit slug from frontmatter, or derive from file id
+    let slug = doc.data.slug || doc.id;
+    // Normalize: strip leading/trailing slashes
+    slug = slug.replace(/^\/+|\/+$/g, '');
+    // Strip 'legal/' prefix if user accidentally included it in slug
+    slug = slug.replace(/^legal\/+/i, '');
+    return {
+      params: { slug },
+      props: { doc },
+    };
+  });
 }
 
 const { doc } = Astro.props;

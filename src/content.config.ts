@@ -55,6 +55,7 @@ const postCollection = defineCollection({
     draft: z.boolean().optional(),
 
     title: z.string(),
+    slug: z.string().optional(),
     videoUrl: z.string().optional(),
     excerpt: z.string().optional(),
     image: z.string().optional(),
@@ -71,6 +72,7 @@ const eventCollection = defineCollection({
   loader: glob({ pattern: ['**/*.md', '**/*.mdx'], base: 'src/data/events' }),
   schema: z.object({
     title: z.string(),
+    slug: z.string().optional(),
     videoUrl: z.string().optional(),
     date: z.date().optional(),
     image: z.string().optional(),
@@ -84,6 +86,7 @@ const wingCollection = defineCollection({
   loader: glob({ pattern: ['*.md', '*.mdx'], base: 'src/data/wings' }),
   schema: z.object({
     title: z.string(),
+    slug: z.string().optional(),
     videoUrl: z.string().optional(),
     metadata: metadataDefinition(),
   }),
@@ -93,6 +96,7 @@ const legalCollection = defineCollection({
   loader: glob({ pattern: ['*.md', '*.mdx'], base: 'src/data/legal' }),
   schema: z.object({
     title: z.string(),
+    slug: z.string().optional(),
     videoUrl: z.string().optional(),
     metadata: metadataDefinition(),
   }),

@@ -349,6 +349,17 @@ export default defineConfig({
         match: {
           include: "*",
         },
+        ui: {
+          filename: {
+            readonly: false,
+            slugify: (values) => {
+              return (values?.slug || values?.title || 'untitled')
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/^-|-$/g, '');
+            },
+          },
+        },
         fields: [
           {
             type: "string",
@@ -367,7 +378,7 @@ export default defineConfig({
             type: "string",
             name: "slug",
             label: "URL Slug",
-            description: "Live URL: /<slug>",
+            description: "The page URL path. Example: 'my-post' → theudaf.com/my-post. Leave empty to use filename.",
           },
           {
             type: "datetime",
@@ -434,6 +445,17 @@ export default defineConfig({
         match: {
           include: "*",
         },
+        ui: {
+          filename: {
+            readonly: false,
+            slugify: (values) => {
+              return (values?.slug || values?.title || 'untitled')
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/^-|-$/g, '');
+            },
+          },
+        },
         fields: [
           {
             type: "string",
@@ -452,7 +474,7 @@ export default defineConfig({
             type: "string",
             name: "slug",
             label: "URL Slug",
-            description: "Live URL: /wings/<slug>",
+            description: "The page URL path. Example: 'my-wing' → theudaf.com/wings/my-wing. Leave empty to use filename.",
           },
           {
             type: "rich-text",
@@ -469,6 +491,17 @@ export default defineConfig({
         format: "mdx",
         match: {
           include: "**/*",
+        },
+        ui: {
+          filename: {
+            readonly: false,
+            slugify: (values) => {
+              return (values?.slug || values?.title || 'untitled')
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/^-|-$/g, '');
+            },
+          },
         },
         fields: [
           {
@@ -488,7 +521,7 @@ export default defineConfig({
             type: "string",
             name: "slug",
             label: "URL Slug",
-            description: "Live URL: /events/<slug>",
+            description: "The page URL path. Example: 'iftar-2025' → theudaf.com/events/iftar-2025. Do NOT include /events/ prefix. Leave empty to use filename.",
           },
           {
             type: "datetime",
@@ -736,6 +769,17 @@ export default defineConfig({
         match: {
           include: "*",
         },
+        ui: {
+          filename: {
+            readonly: false,
+            slugify: (values) => {
+              return (values?.slug || values?.title || 'untitled')
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/^-|-$/g, '');
+            },
+          },
+        },
         fields: [
           {
             type: "string",
@@ -754,7 +798,7 @@ export default defineConfig({
             type: "string",
             name: "slug",
             label: "URL Slug",
-            description: "Live URL: /legal/<slug>",
+            description: "The page URL path. Example: 'privacy' → theudaf.com/legal/privacy. Leave empty to use filename.",
           },
           {
             type: "rich-text",

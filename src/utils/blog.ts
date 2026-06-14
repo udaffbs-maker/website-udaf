@@ -55,9 +55,14 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
     author,
     draft = false,
     metadata = {},
+    slug: rawSlug,
   } = data;
 
-  const slug = cleanSlug(id); // cleanSlug(rawSlug.split('/').pop());
+  let slug = rawSlug ? cleanSlug(rawSlug) : cleanSlug(id); // cleanSlug(rawSlug.split('/').pop());
+  const blogBasePrefix = BLOG_BASE ? BLOG_BASE + '/' : '';
+  if (blogBasePrefix && slug.startsWith(blogBasePrefix)) {
+    slug = slug.substring(blogBasePrefix.length);
+  }
   const publishDate = new Date(rawPublishDate);
   const updateDate = rawUpdateDate ? new Date(rawUpdateDate) : undefined;
 

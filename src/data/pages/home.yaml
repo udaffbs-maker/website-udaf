@@ -16,11 +16,9 @@ hero:
     - text: Learn more
       href: /about-us
       variant: primary
-    - text: Our Events
-      href: /events
 stats:
   - title: Years of Excellence
-    amount: '14'
+    amount: '12'
     icon: 'tabler:calendar'
   - title: Current Club Members
     amount: 100+
@@ -35,7 +33,7 @@ stats:
     amount: 15+
     icon: 'tabler:presentation'
   - title: Successful Events
-    amount: '48'
+    amount: 50+
     icon: 'tabler:confetti'
   - title: Guest Speakers Invited
     amount: 150+

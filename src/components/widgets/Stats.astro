@@ -46,11 +46,18 @@ const {
 </WidgetWrapper>
 
 <script>
-  function animateValue(obj, start, end, duration, suffix = "", decimals = 0) {
-    let startTimestamp = null;
-    const step = (timestamp) => {
-      if (!startTimestamp) startTimestamp = timestamp;
-      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+  function animateValue(
+    obj: HTMLElement,
+    start: number,
+    end: number,
+    duration: number,
+    suffix = "",
+    decimals = 0
+  ) {
+    let startTimestamp: number | null = null;
+    const step = (timestamp: number) => {
+      if (startTimestamp === null) startTimestamp = timestamp;
+      const progress = Math.min((timestamp - startTimestamp!) / duration, 1);
       // Easing function: easeOutExpo
       const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
       const currentValue = easeProgress * (end - start) + start;
@@ -62,22 +69,25 @@ const {
     window.requestAnimationFrame(step);
   }
 
+
   const initCounter = () => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           const target = entry.target;
-          const valueStr = target.getAttribute('data-value');
-          if (!valueStr) return;
-          
-          const match = valueStr.match(/(\d+\.?\d*)(.*)/);
-          if (match) {
-            const endValue = parseFloat(match[1]);
-            const suffix = match[2] || "";
-            const decimals = match[1].includes('.') ? match[1].split('.')[1].length : 0;
-            animateValue(target, 0, endValue, 2000, suffix, decimals);
+          if (target instanceof HTMLElement) {
+            const valueStr = target.getAttribute('data-value');
+            if (!valueStr) return;
+            
+            const match = valueStr.match(/(\d+\.?\d*)(.*)/);
+            if (match) {
+              const endValue = parseFloat(match[1]);
+              const suffix = match[2] || "";
+              const decimals = match[1].includes('.') ? match[1].split('.')[1].length : 0;
+              animateValue(target, 0, endValue, 2000, suffix, decimals);
+            }
+            observer.unobserve(target);
           }
-          observer.unobserve(target);
         }
       });
     }, { threshold: 0.1 });

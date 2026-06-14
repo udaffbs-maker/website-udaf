@@ -1,78 +1,89 @@
 ---
+import { getCollection } from 'astro:content';
 import Layout from '~/layouts/PageLayout.astro';
-import Features from '~/components/widgets/Features.astro';
-import { getPermalink } from '~/utils/permalinks';
+import { Icon } from 'astro-icon/components';
 
 const metadata = {
   title: 'Events - UDAF',
 };
 
-const events = [
-  {
-    title: 'Prodigies 6.0',
-    description: 'The flagship business competition of UDAF.',
-    link: getPermalink('/events/prodigies/6-0'),
-    icon: 'tabler:trophy',
-  },
-  {
-    title: 'Badminton PRO 4.0',
-    description: 'Annual badminton tournament for students and teachers.',
-    link: getPermalink('/events/badminton-pro/4-0'),
-    icon: 'tabler:ball-tennis',
-  },
-  {
-    title: 'BBQ Party 2024',
-    description: 'Social gathering and celebration for UDAF members.',
-    link: getPermalink('/events/bbq-party-2024'),
-    icon: 'tabler:flame',
-  },
-  {
-    title: 'Sports Day',
-    description: 'A day dedicated to various sports and physical activities.',
-    link: getPermalink('/events/sports-day'),
-    icon: 'tabler:run',
-  },
-  {
-    title: 'Mindlogue',
-    description: 'Knowledge sharing and intellectual discussion series.',
-    link: getPermalink('/events/mindlogue'),
-    icon: 'tabler:brain',
-  },
-  {
-    title: 'Mindlogue 2.0',
-    description: 'The second edition of our intellectual discussion series.',
-    link: getPermalink('/events/mindlogue/2-0'),
-    icon: 'tabler:brain',
-  },
-  {
-    title: 'Cleanup Project',
-    description: 'UDAF initiative for a cleaner environment.',
-    link: getPermalink('/events/cleanup-project'),
-    icon: 'tabler:trash',
-  },
-  {
-    title: 'Iftar Mahfil 2025',
-    description: 'UDAF annual Iftar celebration.',
-    link: getPermalink('/events/iftar-mahfil/2025'),
-    icon: 'tabler:moon',
-  },
-];
+// Fetch all events from the content collection
+const allEvents = await getCollection('event');
+
+// Build slug for each event (same logic as [...slug].astro)
+const events = allEvents
+  .sort((a, b) => {
+    const dateA = a.data.date ? new Date(a.data.date).getTime() : 0;
+    const dateB = b.data.date ? new Date(b.data.date).getTime() : 0;
+    return dateB - dateA; // newest first
+  })
+  .map((event) => {
+    let slug = event.data.slug || event.id;
+    slug = slug.replace(/^\/+|\/+$/g, '');
+    slug = slug.replace(/^events\/+/i, '');
+    return {
+      title: event.data.title,
+      date: event.data.date,
+      image: event.data.image || event.data.coverImage,
+      slug,
+      href: `/events/${slug}`,
+    };
+  });
 ---
 
 <Layout metadata={metadata}>
-  <Features
-    id="events-list"
-    tagline="Our Events"
-    title="Exciting Activities at UDAF"
-    subtitle="Join us in our various events designed to foster growth, networking, and fun."
-    items={events.map((event) => ({
-      title: event.title,
-      description: event.description,
-      icon: event.icon,
-      callToAction: {
-        text: 'Learn More',
-        href: event.link,
-      },
-    }))}
-  />
+  <section class="px-4 py-16 sm:px-6 mx-auto lg:px-8 lg:py-20 max-w-6xl">
+    <header class="text-center mb-16">
+      <p class="text-sm font-bold tracking-wider text-primary uppercase mb-3">Our Events</p>
+      <h1 class="font-bold font-heading text-4xl md:text-5xl mb-4 text-gray-900 dark:text-white tracking-tight">
+        Exciting Activities at UDAF
+      </h1>
+      <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+        Join us in our various events designed to foster growth, networking, and fun.
+      </p>
+      <div class="w-20 h-1.5 bg-primary mx-auto rounded-full mt-6"></div>
+    </header>
+
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {events.map((event) => (
+        <a
+          href={event.href}
+          class="group relative flex flex-col overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+        >
+          {event.image ? (
+            <div class="aspect-video overflow-hidden">
+              <img
+                src={event.image}
+                alt={event.title}
+                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                loading="lazy"
+              />
+            </div>
+          ) : (
+            <div class="aspect-video bg-gradient-to-br from-primary/20 to-primary/5 dark:from-primary/30 dark:to-primary/10 flex items-center justify-center">
+              <Icon name="tabler:calendar-event" class="w-12 h-12 text-primary/60" />
+            </div>
+          )}
+          <div class="flex flex-col flex-grow p-5">
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-primary transition-colors duration-200 mb-2">
+              {event.title}
+            </h2>
+            {event.date && (
+              <p class="text-sm text-gray-500 dark:text-gray-400 mt-auto">
+                {new Date(event.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+              </p>
+            )}
+          </div>
+          <div class="absolute bottom-0 left-0 right-0 h-1 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+        </a>
+      ))}
+    </div>
+
+    {events.length === 0 && (
+      <div class="text-center py-20">
+        <Icon name="tabler:calendar-off" class="w-16 h-16 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
+        <p class="text-gray-500 dark:text-gray-400 text-lg">No events found yet. Check back soon!</p>
+      </div>
+    )}
+  </section>
 </Layout>

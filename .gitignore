@@ -24,3 +24,7 @@ pnpm-debug.log*
 pnpm-lock.yaml
 
 .astro
+
+# local tool configurations & scripts
+.claude/
+run_claude.bat

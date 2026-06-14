@@ -13,10 +13,18 @@ import Features from '~/components/widgets/Features.astro';
 
 export async function getStaticPaths() {
   const events = await getCollection('event');
-  return events.map((event) => ({
-    params: { slug: event.data.slug || event.id },
-    props: { event },
-  }));
+  return events.map((event) => {
+    // Use explicit slug from frontmatter, or derive from file id
+    let slug = event.data.slug || event.id;
+    // Normalize: strip leading/trailing slashes
+    slug = slug.replace(/^\/+|\/+$/g, '');
+    // Strip 'events/' prefix if user accidentally included it in slug
+    slug = slug.replace(/^events\/+/i, '');
+    return {
+      params: { slug },
+      props: { event },
+    };
+  });
 }
 
 const { event } = Astro.props;

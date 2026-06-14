@@ -7,10 +7,18 @@ import Video from '~/components/ui/Video.astro';
 
 export async function getStaticPaths() {
   const wings = await getCollection('wing');
-  return wings.map((wing) => ({
-    params: { slug: wing.data.slug || wing.id },
-    props: { wing },
-  }));
+  return wings.map((wing) => {
+    // Use explicit slug from frontmatter, or derive from file id
+    let slug = wing.data.slug || wing.id;
+    // Normalize: strip leading/trailing slashes
+    slug = slug.replace(/^\/+|\/+$/g, '');
+    // Strip 'wings/' prefix if user accidentally included it in slug
+    slug = slug.replace(/^wings\/+/i, '');
+    return {
+      params: { slug },
+      props: { wing },
+    };
+  });
 }
 
 const { wing } = Astro.props;

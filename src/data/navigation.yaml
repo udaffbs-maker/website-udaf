@@ -36,6 +36,8 @@ header:
       links:
         - text: Badminton PRO
           links:
+            - text: Badminton PRO 5.0
+              href: /events/badminton-pro-5-0
             - text: Badminton PRO 4.0
               href: /events/badminton-pro/4-0
             - text: Badminton PRO 3.0
