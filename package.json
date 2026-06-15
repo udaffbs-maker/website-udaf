@@ -35,7 +35,7 @@
     "limax": "4.1.0",
     "lodash.merge": "^4.6.2",
     "marked": "^18.0.3",
-    "next-tinacms-cloudinary": "25.0.1",
+    "next-tinacms-cloudinary": "26.0.2",
     "plyr": "^3.8.4",
     "serverless-http": "^4.0.0",
     "unpic": "^4.2.2"
