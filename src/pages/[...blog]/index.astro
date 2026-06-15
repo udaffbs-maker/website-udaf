@@ -17,6 +17,7 @@ import Button from '~/components/ui/Button.astro';
 import Countdown from '~/components/ui/Countdown.astro';
 import Registration from '~/components/ui/Registration.astro';
 import Video from '~/components/ui/Video.astro';
+import Image from '~/components/common/Image.astro';
 
 export const prerender = true;
 
@@ -50,6 +51,7 @@ const metadata = merge(
 ) as MetaData;
 
 const components = {
+  img: Image,
   Carousel,
   Button,
   Countdown,

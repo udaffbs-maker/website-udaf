@@ -4,6 +4,7 @@ import Layout from '~/layouts/PageLayout.astro';
 import Carousel from '~/components/ui/Carousel.astro';
 import Button from '~/components/ui/Button.astro';
 import Countdown from '~/components/ui/Countdown.astro';
+import Image from '~/components/common/Image.astro';
 import Registration from '~/components/ui/Registration.astro';
 import RegistrationSteps from '~/components/ui/RegistrationSteps.astro';
 import Video from '~/components/ui/Video.astro';
@@ -36,6 +37,7 @@ const metadata = {
 };
 
 const components = {
+  img: Image,
   Carousel,
   Button,
   Countdown,

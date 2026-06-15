@@ -4,6 +4,7 @@ import Layout from '~/layouts/PageLayout.astro';
 import Carousel from '~/components/ui/Carousel.astro';
 import Button from '~/components/ui/Button.astro';
 import Video from '~/components/ui/Video.astro';
+import Image from '~/components/common/Image.astro';
 
 export async function getStaticPaths() {
   const wings = await getCollection('wing');
@@ -25,6 +26,7 @@ const { wing } = Astro.props;
 const { Content } = await render(wing);
 
 const components = {
+  img: Image,
   Carousel,
   Button,
   Video,

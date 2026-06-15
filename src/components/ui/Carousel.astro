@@ -1,5 +1,6 @@
 ---
 import { Icon } from 'astro-icon/components';
+import Image from '~/components/common/Image.astro';
 
 export interface Props {
   images?: string[];
@@ -33,7 +34,7 @@ const images = (rawImages && rawImages.length > 0
           {images.map((img, index) => (
             <div class="carousel-item flex-none w-full" data-index={index}>
               <div class="relative w-full flex items-center justify-center p-0.5">
-                <img
+                <Image
                   src={img}
                   alt={`Carousel image ${index + 1}`}
                   loading={index === 0 ? 'eager' : 'lazy'}

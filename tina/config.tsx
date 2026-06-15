@@ -17,7 +17,20 @@ export default defineConfig({
   media: {
     loadCustomStore: async () => {
       const pack = await import('next-tinacms-cloudinary');
-      return pack.TinaCloudCloudinaryMediaStore;
+      
+      const isLocal = typeof window === 'undefined' || 
+                      window.location.hostname === 'localhost' || 
+                      window.location.hostname === '127.0.0.1';
+      
+      if (isLocal) {
+        return pack.TinaCloudCloudinaryMediaStore;
+      } else {
+        // Point the production media store to the external Vercel API URL
+        const vercelUrl = process.env.NEXT_PUBLIC_CLOUDINARY_BASE_URL || '/api/cloudinary/media';
+        return pack.createTinaCloudCloudinaryMediaStore({
+          baseUrl: vercelUrl,
+        });
+      }
     },
   },
   // See docs on content modeling for more info on how to setup new collections: https://tina.io/docs/schema/

@@ -4,6 +4,7 @@ import { Icon } from 'astro-icon/components';
 import fs from 'node:fs';
 import path from 'node:path';
 import yaml from 'js-yaml';
+import Image from '~/components/common/Image.astro';
 
 // Read and parse the portfolio data
 const dataPath = path.join(process.cwd(), 'src/data/portfolio/portfolio.yaml');
@@ -30,8 +31,8 @@ const metadata = {
       <div class="w-full md:w-1/2">
         <div class="relative bg-white dark:bg-slate-900 rounded-2xl overflow-hidden shadow-2xl border border-gray-100 dark:border-slate-800 transition-all duration-300 hover:shadow-primary/20 group">
           <div class="absolute -inset-1 bg-gradient-to-r from-primary to-accent rounded-[1.25rem] blur opacity-25 group-hover:opacity-40 transition duration-500"></div>
-          <img
-            src={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/${portfolioData.coverImage?.replace(/^\//, '')}`}
+          <Image
+            src={portfolioData.coverImage}
             alt="Portfolio Cover"
             class="relative w-full h-auto object-cover rounded-2xl border-4 border-white dark:border-slate-800"
           />        </div>
