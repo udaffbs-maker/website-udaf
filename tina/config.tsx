@@ -25,8 +25,15 @@ export default defineConfig({
       if (isLocal) {
         return pack.TinaCloudCloudinaryMediaStore;
       } else {
-        // Point the production media store to the external Vercel API URL
-        const vercelUrl = process.env.NEXT_PUBLIC_CLOUDINARY_BASE_URL || '/api/cloudinary/media';
+        // Automatically default to Netlify endpoint if running on GitHub Pages
+        const isGithubPages = typeof window !== 'undefined' && 
+          (window.location.hostname.endsWith('github.io') || window.location.hostname === 'theudaf.com');
+        
+        const defaultBaseUrl = isGithubPages 
+          ? 'https://udaf-du.netlify.app/.netlify/functions/cloudinary' 
+          : '/api/cloudinary/media';
+
+        const vercelUrl = process.env.NEXT_PUBLIC_CLOUDINARY_BASE_URL || defaultBaseUrl;
         return pack.createTinaCloudCloudinaryMediaStore({
           baseUrl: vercelUrl,
         });
