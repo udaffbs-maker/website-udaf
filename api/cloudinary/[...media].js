@@ -5,7 +5,6 @@ const handler = createMediaHandler({
   api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
   authorized: async () => {
-    // Authorize requests. In production, you could restrict access based on request headers/tokens if needed.
     return true;
   },
 });
@@ -27,6 +26,17 @@ export default async function (req, res) {
     res.status(200).end();
     return;
   }
+
+  // Decorate response object to support Express-like helpers used by next-tinacms-cloudinary
+  res.status = (code) => {
+    res.statusCode = code;
+    return res;
+  };
+
+  res.json = (data) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(data));
+  };
 
   return handler(req, res);
 }

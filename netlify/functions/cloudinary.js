@@ -52,5 +52,16 @@ export const handler = serverless((req, res) => {
   
   req.query = query;
 
+  // Decorate response object to support Express-like helpers used by next-tinacms-cloudinary
+  res.status = (code) => {
+    res.statusCode = code;
+    return res;
+  };
+
+  res.json = (data) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(data));
+  };
+
   return mediaHandler(req, res);
 });
