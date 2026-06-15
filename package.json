@@ -37,6 +37,7 @@
     "marked": "^18.0.3",
     "next-tinacms-cloudinary": "25.0.1",
     "plyr": "^3.8.4",
+    "serverless-http": "^4.0.0",
     "unpic": "^4.2.2"
   },
   "devDependencies": {
