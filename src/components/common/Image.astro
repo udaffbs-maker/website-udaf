@@ -8,6 +8,7 @@ import {
   isUnpicCompatible,
   type ImageProps,
 } from '~/utils/images-optimization';
+import { optimizeCloudinaryUrl, isCloudinaryUrl } from '~/utils/cloudinary';
 
 type Props = ImageProps;
 type ImageType = {
@@ -42,6 +43,14 @@ const _image = await findImage(props.src);
 let image: ImageType | undefined = undefined;
 
 if (
+  typeof _image === 'string' &&
+  (_image.startsWith('http://') || _image.startsWith('https://')) &&
+  isCloudinaryUrl(_image)
+) {
+  // Cloudinary images: inject f_auto,q_auto and pass through as-is (CDN handles optimization)
+  const optimizedUrl = optimizeCloudinaryUrl(_image);
+  image = await getImagesOptimized(optimizedUrl, props, unpicOptimizer);
+} else if (
   typeof _image === 'string' &&
   (_image.startsWith('http://') || _image.startsWith('https://')) &&
   isUnpicCompatible(_image)

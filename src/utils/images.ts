@@ -1,4 +1,5 @@
 import { isUnpicCompatible, unpicOptimizer, astroAssetsOptimizer } from './images-optimization';
+import { optimizeCloudinaryUrl } from './cloudinary';
 import type { ImageMetadata } from 'astro';
 import type { MetaDataOpenGraph } from '~/types';
 import type { ImagesOptimizer } from './images-optimization';
@@ -8,7 +9,9 @@ type OptimizedImage = Awaited<ReturnType<ImagesOptimizer>>[0];
 const load = async function () {
   let images: Record<string, () => Promise<unknown>> | undefined = undefined;
   try {
-    images = import.meta.glob('/src/assets/images/**/*.{jpeg,jpg,png,tiff,webp,gif,svg,JPEG,JPG,PNG,TIFF,WEBP,GIF,SVG}');
+    images = import.meta.glob(
+      '/src/assets/images/**/*.{jpeg,jpg,png,tiff,webp,gif,svg,JPEG,JPG,PNG,TIFF,WEBP,GIF,SVG}'
+    );
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     // continue regardless of error
@@ -35,7 +38,7 @@ export const findImage = async (
 
   // Absolute paths
   if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
-    return imagePath;
+    return optimizeCloudinaryUrl(imagePath);
   }
 
   // Handle TinaCMS default paths starting with /images/
