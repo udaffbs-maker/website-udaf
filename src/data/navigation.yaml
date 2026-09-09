@@ -72,6 +72,10 @@ header:
       href: /portfolio
     - text: Contact
       href: /contact-us
+  actions:
+    - text: Mindlogue 3.0
+      href: 'https://theudaf.com/events/mindlouge-3-0-registration/'
+      variant: flashy
 footer:
   links:
     - title: Quick Links
