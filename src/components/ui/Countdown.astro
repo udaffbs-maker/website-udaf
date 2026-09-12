@@ -9,7 +9,7 @@ export interface Props {
 const {
   targetDate,
   title = 'Event Starts In',
-  id = `countdown-${Math.random().toString(36).substr(2, 9)}`,
+  id = `countdown-${Math.random().toString(36).substring(2, 11)}`,
   class: className = '',
 } = Astro.props;
 ---
@@ -87,6 +87,21 @@ const {
 </div>
 
 <script>
+  function parseTargetDate(str: string): number {
+    const trimmed = str.trim();
+    if (/(Z|[+-]\d{2}:?\d{2})$/i.test(trimmed)) {
+      return new Date(trimmed).getTime();
+    }
+    if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) {
+      return new Date(`${trimmed}T23:59:59+06:00`).getTime();
+    }
+    if (/^\d{4}-\d{2}-\d{2}[T\s]\d{2}:\d{2}(:\d{2})?(\.\d+)?$/.test(trimmed)) {
+      const iso = trimmed.replace(' ', 'T');
+      return new Date(`${iso}+06:00`).getTime();
+    }
+    return new Date(trimmed).getTime();
+  }
+
   function initCountdowns() {
     const countdowns = document.querySelectorAll('[data-target]:not([data-initialized])');
 
@@ -95,7 +110,8 @@ const {
       const targetDateStr = countdown.getAttribute('data-target');
       if (!targetDateStr) return;
 
-      const targetDate = new Date(targetDateStr).getTime();
+      const targetDate = parseTargetDate(targetDateStr);
+      if (isNaN(targetDate)) return;
 
       const daysEl = countdown.querySelector('[data-days]');
       const hoursEl = countdown.querySelector('[data-hours]');

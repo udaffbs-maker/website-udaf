@@ -17,20 +17,22 @@ export default defineConfig({
   media: {
     loadCustomStore: async () => {
       const pack = await import('next-tinacms-cloudinary');
-      
-      const isLocal = typeof window === 'undefined' || 
-                      window.location.hostname === 'localhost' || 
-                      window.location.hostname === '127.0.0.1';
-      
+
+      const isLocal =
+        typeof window === 'undefined' ||
+        window.location.hostname === 'localhost' ||
+        window.location.hostname === '127.0.0.1';
+
       if (isLocal) {
         return pack.TinaCloudCloudinaryMediaStore;
       } else {
         // Automatically default to Netlify endpoint if running on GitHub Pages
-        const isGithubPages = typeof window !== 'undefined' && 
+        const isGithubPages =
+          typeof window !== 'undefined' &&
           (window.location.hostname.endsWith('github.io') || window.location.hostname === 'theudaf.com');
-        
-        const defaultBaseUrl = isGithubPages 
-          ? 'https://udaf-du.netlify.app/.netlify/functions/cloudinary' 
+
+        const defaultBaseUrl = isGithubPages
+          ? 'https://udaf-du.netlify.app/.netlify/functions/cloudinary'
           : '/api/cloudinary/media';
 
         const vercelUrl = process.env.NEXT_PUBLIC_CLOUDINARY_BASE_URL || defaultBaseUrl;
@@ -447,6 +449,27 @@ export default defineConfig({
                   { name: 'image6', label: 'Image 6', type: 'image' },
                 ],
               },
+              {
+                name: 'Countdown',
+                label: 'Countdown Timer',
+                fields: [
+                  {
+                    name: 'title',
+                    label: 'Title',
+                    type: 'string',
+                  },
+                  {
+                    name: 'targetDate',
+                    label: 'Target Date & Time',
+                    type: 'datetime',
+                    ui: {
+                      dateFormat: 'YYYY-MM-DD',
+                      timeFormat: 'HH:mm',
+                    },
+                    description: 'Select target date and time using calendar and time picker.',
+                  },
+                ],
+              },
             ],
           },
         ],
@@ -650,8 +673,13 @@ export default defineConfig({
                   },
                   {
                     name: 'targetDate',
-                    label: 'Target Date',
-                    type: 'string',
+                    label: 'Target Date & Time',
+                    type: 'datetime',
+                    ui: {
+                      dateFormat: 'YYYY-MM-DD',
+                      timeFormat: 'HH:mm',
+                    },
+                    description: 'Select target date and time using calendar and time picker.',
                   },
                 ],
               },
