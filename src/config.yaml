@@ -16,15 +16,15 @@ metadata:
     index: true
     follow: true
   openGraph:
-    site_name: AstroWind
+    site_name: 'University of Dhaka Accounting Forum (UDAF)'
     images:
       - url: '~/assets/images/default.png'
         width: 1200
-        height: 628
+        height: 630
     type: website
   twitter:
-    handle: '@arthelokyo'
-    site: '@arthelokyo'
+    handle: '@theudaf'
+    site: '@theudaf'
     cardType: summary_large_image
 
 i18n:

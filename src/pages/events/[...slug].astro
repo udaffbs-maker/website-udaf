@@ -12,6 +12,11 @@ import { Icon } from 'astro-icon/components';
 import Steps from '~/components/widgets/Steps.astro';
 import Features from '~/components/widgets/Features.astro';
 
+import merge from 'lodash.merge';
+import { findImage } from '~/utils/images';
+import type { MetaData } from '~/types';
+import type { ImageMetadata } from 'astro';
+
 export async function getStaticPaths() {
   const events = await getCollection('event');
   return events.map((event) => {
@@ -31,10 +36,29 @@ export async function getStaticPaths() {
 const { event } = Astro.props;
 const { Content } = await render(event);
 
-const metadata = {
-  title: event.data.title,
-  ...event.data.metadata,
-};
+const eventImage = event.data.image || event.data.coverImage;
+const image = (await findImage(eventImage)) as ImageMetadata | string | undefined;
+
+const metadata = merge(
+  {
+    title: event.data.title,
+    openGraph: {
+      type: 'article',
+      ...(image
+        ? {
+            images: [
+              {
+                url: image,
+                width: (image as ImageMetadata)?.width,
+                height: (image as ImageMetadata)?.height,
+              },
+            ],
+          }
+        : {}),
+    },
+  },
+  { ...(event.data?.metadata || {}) }
+) as MetaData;
 
 const components = {
   img: Image,
@@ -59,11 +83,13 @@ const components = {
       <div class="w-20 h-1.5 bg-primary mx-auto rounded-full"></div>
     </header>
 
-    {event.data.videoUrl && (
-      <div class="mb-12 max-w-4xl mx-auto">
-        <Video url={event.data.videoUrl} />
-      </div>
-    )}
+    {
+      event.data.videoUrl && (
+        <div class="mb-12 max-w-4xl mx-auto">
+          <Video url={event.data.videoUrl} />
+        </div>
+      )
+    }
 
     <div
       class="mx-auto prose prose-lg max-w-4xl dark:prose-invert dark:prose-headings:text-slate-300 prose-md prose-headings:font-heading prose-headings:leading-tighter prose-headings:tracking-tighter prose-headings:font-bold prose-a:text-primary dark:prose-a:text-blue-400 prose-img:rounded-2xl prose-img:shadow-2xl mt-8"
