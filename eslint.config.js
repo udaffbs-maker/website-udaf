@@ -61,6 +61,6 @@ export default [
     },
   },
   {
-    ignores: ['dist', 'node_modules', '.github', 'types.generated.d.ts', '.astro', 'public'],
+    ignores: ['dist', 'node_modules', '.github', 'types.generated.d.ts', '.astro', 'public', 'tina/__generated__'],
   },
 ];

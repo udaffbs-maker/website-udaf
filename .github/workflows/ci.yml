@@ -1,0 +1,43 @@
+name: CI & Build Verification
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate Build & Schema
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify TinaCMS Schema Lockfile Sync
+        run: |
+          NEXT_PUBLIC_TINA_CLIENT_ID="dummy" TINA_TOKEN="dummy" npx tinacms dev --no-server --noWatch
+          git diff --exit-code tina/tina-lock.json || (echo "::error::tina/tina-lock.json is out of sync with tina/config.tsx! Run 'npm run tina:lock' locally and commit the updated tina-lock.json." && exit 1)
+
+      - name: Typecheck Astro & TypeScript
+        run: npm run check:astro
+
+      - name: Test Production Build
+        env:
+          NEXT_PUBLIC_TINA_CLIENT_ID: "dummy"
+          TINA_TOKEN: "dummy"
+          GITHUB_REF_NAME: ${{ github.ref_name }}
+        run: npm run build

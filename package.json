@@ -15,6 +15,7 @@
     "astro": "astro",
     "tina:dev": "tinacms dev",
     "tina:build": "tinacms build --skip-indexing --skip-cloud-checks",
+    "tina:lock": "tinacms dev --no-server --noWatch",
     "check": "npm run check:astro && npm run check:eslint && npm run check:prettier",
     "check:astro": "astro check",
     "check:eslint": "eslint .",
@@ -35,7 +36,7 @@
     "limax": "4.1.0",
     "lodash.merge": "^4.6.2",
     "marked": "^18.0.3",
-    "next-tinacms-cloudinary": "25.0.1",
+    "next-tinacms-cloudinary": "^27.0.4",
     "plyr": "^3.8.4",
     "serverless-http": "^4.0.0",
     "unpic": "^4.2.2"
@@ -68,7 +69,7 @@
     "sharp": "0.34.5",
     "tailwind-merge": "^3.6.0",
     "tailwindcss": "^4.3.0",
-    "tinacms": "^3.8.1",
+    "tinacms": "^3.13.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.59.2"
   },

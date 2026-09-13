@@ -1,17 +1,46 @@
 version: 2
 updates:
-  # Check for npm dependency updates weekly
+  # Maintain npm dependencies
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "weekly"
-      day: "sunday"
+      day: "monday"
+      time: "04:00"
+      timezone: "Asia/Dhaka"
     open-pull-requests-limit: 10
+    # Group updates together to avoid overwhelming PR clutter and ensure related packages update simultaneously
+    groups:
+      tinacms:
+        patterns:
+          - "tinacms"
+          - "@tinacms/*"
+          - "next-tinacms-*"
+      astro:
+        patterns:
+          - "astro"
+          - "@astrojs/*"
+      tailwind:
+        patterns:
+          - "tailwind*"
+          - "@tailwindcss/*"
+      code-quality:
+        patterns:
+          - "eslint*"
+          - "@eslint/*"
+          - "prettier*"
+          - "typescript*"
+          - "@typescript-eslint/*"
+      other-dependencies:
+        patterns:
+          - "*"
 
-  # Check for GitHub Actions updates weekly
+  # Maintain GitHub Actions workflow dependencies
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
-      day: "sunday"
+      day: "monday"
+      time: "04:00"
+      timezone: "Asia/Dhaka"
     open-pull-requests-limit: 5

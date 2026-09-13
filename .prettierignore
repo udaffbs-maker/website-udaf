@@ -2,3 +2,6 @@ dist
 node_modules
 .github
 .changeset
+tina/__generated__
+tina/tina-lock.json
+package-lock.json
