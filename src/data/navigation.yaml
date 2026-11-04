@@ -72,7 +72,10 @@ header:
       href: /portfolio
     - text: Contact
       href: /contact-us
-  actions: []
+  actions:
+    - text: Recruitment 31st
+      href: 'https://theudaf.com/events/recruitment-31st/'
+      variant: flashy
 footer:
   links:
     - title: Quick Links
