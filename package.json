@@ -36,7 +36,7 @@
     "limax": "4.1.0",
     "lodash.merge": "^4.6.2",
     "marked": "^18.0.3",
-    "next-tinacms-cloudinary": "^27.0.4",
+    "next-tinacms-cloudinary": "^27.0.6",
     "plyr": "^3.8.4",
     "serverless-http": "^4.0.0",
     "unpic": "^4.2.2"
@@ -50,7 +50,7 @@
     "@iconify-json/tabler": "^1.2.20",
     "@tailwindcss/typography": "^0.5.19",
     "@tailwindcss/vite": "^4.3.4",
-    "@tinacms/cli": "^2.7.0",
+    "@tinacms/cli": "^4.0.4",
     "@types/js-yaml": "^4.0.9",
     "@types/lodash.merge": "^4.6.9",
     "@types/mdx": "^2.0.13",
